@@ -1,4 +1,5 @@
 <?php
+
 namespace Wepa\Blog\Models;
 
 use Astrotomic\Translatable\Translatable;
@@ -6,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Wepa\Blog\Database\Factories\CategoryFactory;
 use Wepa\Core\Models\Traits\PositionTrait;
-
 
 /**
  * Wepa\Blog\Models\Category
@@ -20,6 +20,7 @@ use Wepa\Core\Models\Traits\PositionTrait;
  * @property-read \Wepa\Blog\Models\CategoryTranslation|null $translation
  * @property-read \Illuminate\Database\Eloquent\Collection|\Wepa\Blog\Models\CategoryTranslation[] $translations
  * @property-read int|null $translations_count
+ *
  * @method static \Illuminate\Database\Eloquent\Builder|Category listsTranslations(string $translationField)
  * @method static \Illuminate\Database\Eloquent\Builder|Category newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Category newQuery()
@@ -44,28 +45,30 @@ use Wepa\Core\Models\Traits\PositionTrait;
 class Category extends Model
 {
     use HasFactory;
-	use PositionTrait;
-	use Translatable;
-	
-	
-	/**
-	 * @return CategoryFactory
-	 */
-	protected static function newFactory(): CategoryFactory
-	{
-		return CategoryFactory::new();
-	}
-	
-	protected $table = 'blog_categories';
-	protected $fillable = [
-		'parent_id',
-		'position',
-		'publish',
-	];
-	public array $translatedAttributes = [
-		'name'
-	];
-	public $translationForeignKey = 'category_id';
-	
-	public $timestamps = false;
+    use PositionTrait;
+    use Translatable;
+
+    /**
+     * @return CategoryFactory
+     */
+    protected static function newFactory(): CategoryFactory
+    {
+        return CategoryFactory::new();
+    }
+
+    protected $table = 'blog_categories';
+
+    protected $fillable = [
+        'parent_id',
+        'position',
+        'publish',
+    ];
+
+    public array $translatedAttributes = [
+        'name',
+    ];
+
+    public $translationForeignKey = 'category_id';
+
+    public $timestamps = false;
 }

@@ -10,34 +10,33 @@ return new class extends Migration
     {
         Schema::create('blog_categories', function (Blueprint $table) {
             $table->id();
-	        $table->foreignId('parent_id')->nullable()->default(null);
-	        $table->integer('position');
-	        $table->boolean('publish')->default(false);
+            $table->foreignId('parent_id')->nullable()->default(null);
+            $table->integer('position');
+            $table->boolean('publish')->default(false);
 
             // add fields
 
             $table->timestamps();
         });
-		
-		Schema::create('blog_categories_translations', function(Blueprint $table){
-			$table->id();
-			$table->foreignId('category_id');
-			$table->string('locale');
-			$table->unique(['locale', 'category_id']);
-			
-			$table->foreign('category_id')
-				->references('id')
-				->on('blog_categories')
-				->onDelete('cascade');
-			
-			$table->string('name');
-			
-		});
+
+        Schema::create('blog_categories_translations', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('category_id');
+            $table->string('locale');
+            $table->unique(['locale', 'category_id']);
+
+            $table->foreign('category_id')
+                ->references('id')
+                ->on('blog_categories')
+                ->onDelete('cascade');
+
+            $table->string('name');
+        });
     }
-	
-	public function down()
-	{
-		Schema::dropIfExists('blog_categories');
-		Schema::dropIfExists('blog_categories_translations');
-	}
+
+    public function down()
+    {
+        Schema::dropIfExists('blog_categories');
+        Schema::dropIfExists('blog_categories_translations');
+    }
 };

@@ -4,7 +4,6 @@ namespace Wepa\Blog\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-
 class CategoryRequest extends FormRequest
 {
     /**
@@ -25,7 +24,7 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required'
+            'name' => 'required',
         ];
     }
 }
