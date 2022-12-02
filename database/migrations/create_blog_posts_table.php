@@ -1,0 +1,51 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up()
+    {
+        Schema::create('blog_posts', function (Blueprint $table) {
+            $table->id();
+	        $table->foreignId('category_id');
+	        $table->foreignId('user_id');
+	        $table->foreignId('create_at');
+	        $table->foreignId('update_at');
+	        $table->date('start_at');
+	        $table->integer('visits');
+	        $table->integer('likes');
+	        $table->integer('position');
+	        $table->boolean('publish');
+
+            // add fields
+
+            $table->timestamps();
+        });
+		
+		Schema::create('blog_posts_translations', function(Blueprint $table){
+			$table->id();
+			$table->foreignId('post_id');
+			$table->string('locale');
+			$table->unique(['locale', 'post_id']);
+			
+			$table->foreign('post_id')
+				->references('id')
+				->on('blog_posts')
+				->onDelete('cascade');
+			
+			$table->string('title');
+			$table->string('summary');
+			$table->text('body');
+			
+		});
+    }
+	
+	public function down()
+	{
+		Schema::dropIfExists('blog_posts');
+		Schema::dropIfExists('blog_posts_translations');
+	}
+};
