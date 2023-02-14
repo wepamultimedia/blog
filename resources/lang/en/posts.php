@@ -1,0 +1,28 @@
+<?php
+
+return [
+    'title_required' => 'The title field is required in ":locale" language.',
+    'summary_required' => 'The summary field is required in ":locale" language.',
+    'body_required' => 'The body field is required in ":locale" language.',
+    'category_required' => 'The category field is required.',
+    'start_at_required' => 'The start date field is required.',
+    'cover_required' => 'The cover field is required.',
+    'cover_alt_required' => 'The cover alt field is required.',
+    'edit_title' => 'Edit post',
+    'post' => 'Post',
+    'title' => 'Title',
+    'summary' => 'Summary',
+    'body' => 'Body',
+    'select_category' => 'Category',
+    'create_title' => 'Create post',
+    'draft' => 'Draft',
+    'start_at' => 'Start date',
+    'select_image' => 'Select image',
+    'select_image_cover' => 'Cover image',
+    'posts_list' => 'Post list',
+    'posts' => 'Posts',
+    'delete_title' => 'Delete post',
+    'cover_image' => 'Cover image',
+    'dates' => 'Posts dates',
+    'clear_filters' => 'Clear filters',
+];
