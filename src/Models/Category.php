@@ -8,7 +8,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Wepa\Blog\Database\Factories\CategoryFactory;
-use Wepa\Blog\Database\Factories\SiteFactory;
 use Wepa\Blog\Http\Controllers\Frontend\PostController;
 use Wepa\Core\Http\Traits\Backend\PositionModelTrait;
 use Wepa\Core\Models\Seo;
@@ -138,10 +137,10 @@ class Category extends Model
             get: fn () => $this->where(['parent_id' => $this->id])->count()
         );
     }
-	
-	/**
-	 * @return CategoryFactory
-	 */
+
+    /**
+     * @return CategoryFactory
+     */
     protected static function newFactory(): CategoryFactory
     {
         return CategoryFactory::new();

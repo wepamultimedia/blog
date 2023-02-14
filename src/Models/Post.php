@@ -134,10 +134,10 @@ class Post extends Model
 
         return $collection->toArray();
     }
-	
-	protected $casts = [
-		'start_at' => 'date:d M Y'
-	];
+
+    protected $casts = [
+        'start_at' => 'date:d M Y',
+    ];
 
     /**
      * @return PostFactory

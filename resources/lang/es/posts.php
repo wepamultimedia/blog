@@ -24,6 +24,6 @@ return [
     'position' => 'Posición',
     'delete_title' => 'Borrar entrada',
     'cover_image' => 'Imágen de portada',
-	'dates' => 'Fechas',
-	'clear_filters' => 'Limpiar filtros',
+    'dates' => 'Fechas',
+    'clear_filters' => 'Limpiar filtros',
 ];

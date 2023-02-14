@@ -16,12 +16,12 @@ class BlogServiceProvider extends PackageServiceProvider
     public function bootingPackage()
     {
         $this->hasSeeders([DefaultSeeder::class]);
-	
-	    $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-	    $this->publishes([
-		    __DIR__ . '/../database/migrations/' => database_path('migrations'),
-	    ], 'blog-migrations');
-		
+
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->publishes([
+            __DIR__.'/../database/migrations/' => database_path('migrations'),
+        ], 'blog-migrations');
+
         $this->publishes([
             __DIR__.'/../resources/js' => resource_path('js/Blog'),
             __DIR__.'/../resources/js/Pages' => resource_path('js/Pages/Blog'),
