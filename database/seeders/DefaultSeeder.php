@@ -15,18 +15,6 @@ class DefaultSeeder extends \Illuminate\Database\Seeder
 
         if (! Category::whereTranslation('name', 'Main')->exists()) {
             Category::factory()->default()->create();
-            Seo::create([
-                'package' => 'blog',
-                'alias' => 'blog',
-                'controller' => PostController::class,
-                'action' => 'index',
-                'canonical' => true,
-                'robots' => ['noindex'],
-                'page_type' => 'article',
-                'slug' => 'publicaciones',
-                'title' => 'Publicaciones',
-                'description' => 'Lista de publicaciones',
-            ]);
         }
     }
 }
