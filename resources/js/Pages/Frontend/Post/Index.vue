@@ -1,16 +1,15 @@
 <script>
-import MainLayout from "@pages/Core/Frontend/Layouts/MainLayout/MainLayout.vue";
-import { Link } from "@inertiajs/inertia-vue3";
+import MainLayout from "@pages/Vendor/Core/Frontend/Layouts/MainLayout/MainLayout.vue";
+import { Link } from "@inertiajs/vue3";
 
 export default {
     layout: (h, page) => h(MainLayout, () => page)
 };
 </script>
 <script setup>
-import { usePage } from "@inertiajs/inertia-vue3";
 import Pagination from "@core/Components/Pagination.vue";
-import { Link } from "@inertiajs/inertia-vue3";
-import Filters from "@/Pages/Blog/Frontend/Post/Partials/Filters.vue";
+import { Link } from "@inertiajs/vue3";
+import Filters from "@pages/Vendor/Blog/Frontend/Post/Partials/Filters.vue";
 
 const props = defineProps(["posts", "categories", "category", "dates"]);
 </script>

@@ -23,16 +23,9 @@ class DefaultSeeder extends \Illuminate\Database\Seeder
                 'canonical' => true,
                 'robots' => ['noindex'],
                 'page_type' => 'article',
-                'en' => [
-                    'slug' => 'blog',
-                    'title' => 'Blog',
-                    'description' => 'List of Post',
-                ],
-                'es' => [
-                    'slug' => 'publicaciones',
-                    'title' => 'Publicaciones',
-                    'description' => 'Lista de publicaciones',
-                ],
+                'slug' => 'publicaciones',
+                'title' => 'Publicaciones',
+                'description' => 'Lista de publicaciones',
             ]);
         }
     }

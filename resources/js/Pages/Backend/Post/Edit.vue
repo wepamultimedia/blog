@@ -1,5 +1,5 @@
 <script>
-import MainLayout from "@pages/Core/Backend/Layouts/MainLayout/MainLayout.vue";
+import MainLayout from "@pages/Vendor/Core/Backend/Layouts/MainLayout/MainLayout.vue";
 
 export default {
     layout: (h, page) => h(MainLayout, {
@@ -25,7 +25,7 @@ import Input from "@core/Components/Form/Input.vue";
 import Textarea from "@core/Components/Form/Textarea.vue";
 import InputImage from "@core/Components/Form/InputImage.vue";
 import SeoForm from "@core/Components/Backend/SeoForm.vue";
-import { useForm } from "@inertiajs/inertia-vue3";
+import { useForm } from "@inertiajs/vue3";
 import SaveFormButton from "@core/Components/Form/SaveFormButton.vue";
 import { __ } from "@core/Mixins/translations";
 import { useStore } from "vuex";

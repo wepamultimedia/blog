@@ -56,7 +56,7 @@ class PostController extends InertiaController
             ->orderBy('position', 'desc')
             ->paginate();
 
-        return $this->render('Blog/Frontend/Post/Index',
+        return $this->render('Vendor/Blog/Frontend/Post/Index',
             ['posts', 'categories'],
             compact(['posts', 'categories', 'category', 'dates']));
     }
@@ -84,6 +84,6 @@ class PostController extends InertiaController
 
         $dates = $this->api->dates(request(), 5);
 
-        return $this->render('Blog/Frontend/Post/Show', ['posts', 'categories'], compact(['post', 'categories', 'dates']));
+        return $this->render('Vendor/Blog/Frontend/Post/Show', ['posts', 'categories'], compact(['post', 'categories', 'dates']));
     }
 }

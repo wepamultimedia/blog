@@ -21,10 +21,10 @@ class BlogInstallCommand extends Command
     public function handle(): int
     {
         $this->call('migrate');
-        $this->call('vendor:publish', ['--tag' => 'blog']);
+        $this->call('vendor:publish', ['--tag' => 'blog', '--force' => true]);
         $this->call('db:seed', ['class' => 'Wepa\Blog\Database\Seeders\DefaultSeeder']);
 
-        $process = Process::fromShellCommandline('npm i @ckeditor/ckeditor5-vue wepa-ckeditor5-filemanager @vuepic/vue-datepicker');
+        $process = Process::fromShellCommandline('npm i -D @ckeditor/ckeditor5-vue wepa-ckeditor5-filemanager @vuepic/vue-datepicker');
         $process->run();
         $this->info($process->getOutput());
 

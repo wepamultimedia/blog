@@ -1,6 +1,6 @@
 <?php
 
-namespace Wepa\Blog\Http\Controllers\Api;
+namespace Wepa\Blog\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
@@ -106,7 +106,7 @@ class PostController extends Controller
             ->get();
 
         return $posts->map(function ($post) {
-            $post['url'] = request()->root().'/'.$post->seo->slug;
+            $post['url'] = request()->root() . 'PostController.php/' .$post->seo->slug;
 
             return $post->only(['id', 'title', 'summary', 'cover', 'cover_alt', 'url']);
         });

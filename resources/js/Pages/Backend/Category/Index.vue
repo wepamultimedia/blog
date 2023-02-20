@@ -1,5 +1,5 @@
 <script>
-import MainLayout from "@pages/Core/Backend/Layouts/MainLayout/MainLayout.vue";
+import MainLayout from "@pages/Vendor/Core/Backend/Layouts/MainLayout/MainLayout.vue";
 
 export default {
     layout: (h, page) => h(MainLayout, {
@@ -10,16 +10,15 @@ export default {
 };
 </script>
 <script setup>
-import { Link } from "@inertiajs/inertia-vue3";
+import { Link, router } from "@inertiajs/vue3";
 import Table from "@core/Components/Table.vue";
 import ToggleButton from "@core/Components/Form/ToggleButton.vue";
-import { Inertia } from "@inertiajs/inertia";
 import Icon from "@core/Components/Heroicon.vue";
 
 defineProps(["categories"]);
 
 const publish = item => {
-    Inertia.put(route("admin.blog.category.publish", {
+    router.put(route("admin.blog.category.publish", {
         category: item.id,
         published: item.published ? 1 : 0
     }), {
@@ -29,7 +28,7 @@ const publish = item => {
 }
 
 const updatePosition = (item, position) => {
-    Inertia.put(route("admin.blog.category.position", {
+    router.put(route("admin.blog.category.position", {
         category: item.id,
         position: position
     }), {},{

@@ -12,7 +12,7 @@ const posts = ref();
 const loading = ref(false);
 
 function getPosts() {
-    axios.get(route("api.blog.posts.latest", {number: props.number})).then(response => {
+    axios.get(route("api.v1.blog.posts.latest", {number: props.number})).then(response => {
         posts.value = response.data
     });
 }

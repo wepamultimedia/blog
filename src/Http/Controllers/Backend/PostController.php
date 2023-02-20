@@ -73,7 +73,7 @@ class PostController extends InertiaController
         $categories = Category::where(['parent_id' => null])->get()->toArray();
         $post = (new Post())->attrsToArray(['seo']);
 
-        return $this->render('Blog/Backend/Post/Create',
+        return $this->render('Vendor/Blog/Backend/Post/Create',
             ['core::seo', 'posts'],
             compact(['post', 'categories']));
     }
@@ -87,7 +87,7 @@ class PostController extends InertiaController
         $categories = Category::get();
         $post->attrsToArray(['seo', 'translations']);
 
-        return $this->render('Blog/Backend/Post/Edit',
+        return $this->render('Vendor/Blog/Backend/Post/Edit',
             ['core::seo', 'posts'],
             compact(['post', 'categories']));
     }
@@ -112,7 +112,7 @@ class PostController extends InertiaController
             ->orderBy('position', 'desc')
             ->paginate();
 
-        return $this->render('Blog/Backend/Post/Index',
+        return $this->render('Vendor/Blog/Backend/Post/Index',
             'posts',
             compact(['posts', 'categories']));
     }

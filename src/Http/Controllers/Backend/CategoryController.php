@@ -42,7 +42,7 @@ class CategoryController extends InertiaController
      */
     public function edit(Category $category): \Inertia\Response
     {
-        return $this->render('Blog/Backend/Category/Edit',
+        return $this->render('Vendor/Blog/Backend/Category/Edit',
             ['core::seo', 'categories'],
             ['category' => $category->attrsToArray(['seo', 'translations'])]);
     }
@@ -60,7 +60,7 @@ class CategoryController extends InertiaController
             ->where(['parent_id' => null])
             ->orderBy('position', 'desc')->paginate();
 
-        return $this->render('Blog/Backend/Category/Index',
+        return $this->render('Vendor/Blog/Backend/Category/Index',
             'categories',
             ['categories' => $categories]);
     }
@@ -148,7 +148,7 @@ class CategoryController extends InertiaController
      */
     public function create(): \Inertia\Response
     {
-        return $this->render('Blog/Backend/Category/Create', ['core::seo', 'categories'], [
+        return $this->render('Vendor/Blog/Backend/Category/Create', ['core::seo', 'categories'], [
             'category' => (new Category())->attrsToArray(['seo']),
         ]);
     }

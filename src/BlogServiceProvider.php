@@ -22,10 +22,15 @@ class BlogServiceProvider extends PackageServiceProvider
             __DIR__.'/../database/migrations/' => database_path('migrations'),
         ], 'blog-migrations');
 
+		// Pages
         $this->publishes([
-            __DIR__.'/../resources/js' => resource_path('js/Blog'),
-            __DIR__.'/../resources/js/Pages' => resource_path('js/Pages/Blog'),
-        ], ['blog', 'blog-js']);
+            __DIR__.'/../resources/js/Pages' => resource_path('js/Pages/Vendor/Blog'),
+        ], ['blog', 'blog-pages']);
+	
+	    // Components
+	    $this->publishes([
+		    __DIR__.'/../resources/js/Components' => resource_path('js/Vendor/Blog'),
+	    ], ['blog', 'blog-pages']);
 
         $this->publishes([
             __DIR__.'/../tests/Unit' => base_path('tests/Unit/blog'),

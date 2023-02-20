@@ -43,14 +43,8 @@ class CategoryFactory extends Factory
     public function default()
     {
         $data = [
-            'es' => [
-                'name' => 'Principal',
-                'description' => 'En esta sección podrá encontrar contenido general y actualizado de nuestra web',
-            ],
-            'en' => [
-                'name' => 'Main',
-                'description' => 'In this section you will find general and updated content of our web site.',
-            ],
+            'name' => 'Principal',
+            'description' => 'En esta sección podrá encontrar contenido general y actualizado de nuestra web',
             'position' => 1,
         ];
 

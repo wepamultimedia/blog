@@ -1,7 +1,7 @@
 <script setup>
 import { nextTick, onMounted, reactive, ref } from "vue";
 import Flap from "@core/Components/Flap.vue";
-import { Link } from "@inertiajs/inertia-vue3";
+import { Link } from "@inertiajs/vue3";
 
 const props = defineProps(["categories", "category", "dates"]);
 

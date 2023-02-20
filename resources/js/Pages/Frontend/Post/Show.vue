@@ -1,13 +1,12 @@
 <script>
-import MainLayout from "@pages/Core/Frontend/Layouts/MainLayout/MainLayout.vue";
+import MainLayout from "@pages/Vendor/Core/Frontend/Layouts/MainLayout/MainLayout.vue";
 
 export default {
     layout: (h, page) => h(MainLayout, () => page)
 };
 </script>
 <script setup>
-import { usePage } from "@inertiajs/inertia-vue3";
-import Filters from "@/Pages/Blog/Frontend/Post/Partials/Filters.vue";
+import Filters from "@pages/Vendor/Blog/Frontend/Post/Partials/Filters.vue";
 import SocialShare from "@core/Components/SocialShare.vue";
 
 const props = defineProps(["post", "categories", "dates"]);
