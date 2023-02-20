@@ -16,11 +16,11 @@ class PostController extends InertiaController
 
     public string $packageName = 'blog';
 
-    private \Wepa\Blog\Http\Controllers\Api\PostController $api;
+    private \Wepa\Blog\Http\Controllers\Api\V1\PostController $api;
 
     public function __construct()
     {
-        $this->api = new \Wepa\Blog\Http\Controllers\Api\PostController();
+        $this->api = new \Wepa\Blog\Http\Controllers\Api\V1\PostController();
     }
 
     /**
