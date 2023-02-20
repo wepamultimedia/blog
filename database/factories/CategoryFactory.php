@@ -55,23 +55,13 @@ class CategoryFactory extends Factory
                 'robots' => ['noindex'],
                 'package' => 'core',
                 'page_type' => 'article',
-                'en' => [
-                    'title' => $data['en']['name'],
-                    'description' => $data['en']['description'],
-                    'facebook_title' => $data['en']['name'],
-                    'facebook_description' => $data['en']['description'],
-                    'twitter_title' => $data['en']['name'],
-                    'twitter_description' => $data['en']['description'],
-                    'slug' => Str::slug($data['en']['name']),
-                ], 'es' => [
-                    'title' => $data['es']['name'],
-                    'description' => $data['es']['description'],
-                    'facebook_title' => $data['es']['name'],
-                    'facebook_description' => $data['es']['description'],
-                    'twitter_title' => $data['es']['name'],
-                    'twitter_description' => $data['es']['description'],
-                    'slug' => Str::slug($data['es']['name']),
-                ],
+                'title' => $data['name'],
+                'description' => $data['description'],
+                'facebook_title' => $data['name'],
+                'facebook_description' => $data['description'],
+                'twitter_title' => $data['name'],
+                'twitter_description' => $data['description'],
+                'slug' => Str::slug($data['name']),
             ];
             $this->seo->update($seoParams);
 
