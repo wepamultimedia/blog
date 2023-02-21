@@ -25,4 +25,6 @@ return [
     'cover_image' => 'Cover image',
     'dates' => 'Posts dates',
     'clear_filters' => 'Clear filters',
+	'video_cover' => 'Video cover',
+	'video_cover_legend' => 'Only Youtube or Vimeo videos',
 ];

@@ -85,6 +85,7 @@ class Post extends Model
         'cover',
         'start_at',
         'visits',
+        'video_cover',
         'likes',
         'position',
         'draft',
