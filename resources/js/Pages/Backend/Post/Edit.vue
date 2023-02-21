@@ -76,9 +76,9 @@ function submit() {
                     bg-white dark:bg-gray-600
                     rounded-lg
                     shadow">
-            <div class="flex flex-col xl:flex-row">
+            <div class="grid grid-cols-12 divide-y xl:divide-x divide-gray-300 dark:divide-gray-700">
                 <!-- title, summary and body-->
-                <div class="p-6 max-w-[99%] xl:w-3/4">
+                <div class="p-6 col-span-full xl:col-span-8">
                     <div class="mb-6">
                         <Input v-model="form"
                                v-model:locale="selectedLocale"
@@ -113,68 +113,76 @@ function submit() {
                     </div>
                 </div>
                 <!-- draf, date, category and cover -->
-                <div class="border-t xl:border-t-0 xl:border-l border-gray-300 dark:border-gray-700 p-6 xl:w-1/4">
-                    <div class="w-full flex gap-4 xl:gap-0 flex-col lg:flex-row xl:flex-col">
-                        <!-- draft, date and category -->
-                        <div class="w-full lg:w-1/2 xl:w-full">
-                            <div class="mb-6">
-                                <label class="text-sm">{{ __("draft") }}</label>
-                                <ToggleButton v-model="form.draft"/>
-                            </div>
-                            <div class="mb-6">
-                                <label class="text-sm">{{ __("start_at") }}</label>
-                                <Datepicker id="date"
-                                            v-model="form.start_at"
-                                            :auto-apply="true"
-                                            :close-on-auto-apply="true"
-                                            :enableTimePicker="false"
-                                            class="mt-1"
-                                            format=""
-                                            locale="es"></Datepicker>
-                                <div v-if="errors['start_at']"
-                                     class="text-red-300 text-sm mt-1">* {{ errors["start_at"] }}
-                                </div>
-                            </div>
-                            <div class="mb-6">
-                                <Select v-model="form.category_id"
-                                        :errors="errors"
-                                        :label="__('select_category')"
-                                        :options="categories"
-                                        :placeholder="__('category')"
-                                        name="category_id"
-                                        option-label="name"
-                                        reduce></Select>
+                <div class="col-span-full xl:col-span-4 grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-1  divide-y lg:divide-x lg:divide-y-0 xl:divide-y xl:divide-x-0 divide-gray-300 dark:divide-gray-700 gap-4">
+                    <!-- draft, date and category -->
+                    <div class="p-6">
+                        <div class="mb-6">
+                            <label class="text-sm">{{ __("draft") }}</label>
+                            <ToggleButton v-model="form.draft"/>
+                        </div>
+                        <div class="mb-6">
+                            <label class="text-sm">{{ __("start_at") }} *</label>
+                            <Datepicker id="date"
+                                        v-model="form.start_at"
+                                        :auto-apply="true"
+                                        :close-on-auto-apply="true"
+                                        :enableTimePicker="false"
+                                        class="mt-1"
+                                        format=""
+                                        locale="es"></Datepicker>
+                            <div v-if="errors['start_at']"
+                                 class="text-red-300 text-sm mt-1">* {{ errors["start_at"] }}
                             </div>
                         </div>
-                        <!-- cover -->
-                        <div class="mb-6 w-full lg:w-1/2 xl:w-full">
-                            <div class="sm:w-1/2 lg:w-full">
-                                <InputImage v-model="form.cover"
-                                            v-model:alt="values.cover_alt"
-                                            v-model:image="values.cover"
-                                            v-model:title="values.cover_title"
-                                            :label="__('cover_image')"/>
-                                <div class="mt-4">
-                                    <Input v-model="form"
-                                           v-model:locale="selectedLocale"
-                                           v-model:value="values.cover_title"
-                                           :errors="errors"
-                                           :label="__('cover_title')"
-                                           name="cover_title"
-                                           required
-                                           translation/>
-                                </div>
-                                <div class="mt-4">
-                                    <Textarea v-model="form"
-                                              v-model:locale="selectedLocale"
-                                              v-model:value="values.cover_alt"
-                                              :errors="errors"
-                                              :label="__('cover_alt')"
-                                              name="cover_alt"
-                                              required
-                                              translation/>
-                                </div>
-                            </div>
+                        <div>
+                            <Select v-model="form.category_id"
+                                    :errors="errors"
+                                    :label="__('select_category')"
+                                    :options="categories"
+                                    name="category_id"
+                                    option-label="name"
+                                    required
+                                    reduce></Select>
+                        </div>
+                    </div>
+                    <!-- cover -->
+                    <div class="p-6">
+                        <div class="mb-6">
+                            <Textarea v-model="form"
+                                   v-model:locale="selectedLocale"
+                                   :errors="errors"
+                                   :legend="__('video_cover_legend')"
+                                   :label="__('video_cover')"
+                                   name="video_cover"/>
+                        </div>
+                        <div class="sm:w-1/2 lg:w-full mb-6">
+                            <InputImage v-model="form.cover"
+                                        v-model:alt="values.cover_alt"
+                                        v-model:image="values.cover"
+                                        v-model:title="values.cover_title"
+                                        :errors="errors"
+                                        :label="__('cover_image')"
+                                        name="cover"/>
+                        </div>
+                        <div>
+                            <Input v-model="form"
+                                   v-model:locale="selectedLocale"
+                                   v-model:value="values.cover_title"
+                                   :errors="errors"
+                                   :label="__('cover_title')"
+                                   name="cover_title"
+                                   required
+                                   translation/>
+                        </div>
+                        <div class="mt-4">
+                            <Textarea v-model="form"
+                                      v-model:locale="selectedLocale"
+                                      v-model:value="values.cover_alt"
+                                      :errors="errors"
+                                      :label="__('cover_alt')"
+                                      name="cover_alt"
+                                      required
+                                      translation/>
                         </div>
                     </div>
                 </div>
