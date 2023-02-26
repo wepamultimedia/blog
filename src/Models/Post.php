@@ -140,7 +140,7 @@ class Post extends Model implements CanVisit
     }
 
     protected $casts = [
-//        'start_at' => 'date:d M Y',
+        'start_at' => 'date:d M Y',
     ];
 
     /**

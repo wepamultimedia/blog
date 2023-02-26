@@ -115,6 +115,7 @@ class PostController extends Controller
 		return $posts->map(function($post) {
 			$post['url'] = request()->root() . '/' . $post->seo->slug;
 			$post['category'] = $post->category->name ?? '';
+			$post['start_at'] = Carbon::createFromDate($post->start_at)->locale(config('app.locale'))->format('d M Y');
 			
 			return $post->only(['id', 'title', 'summary', 'cover', 'cover_alt', 'url', 'start_at', 'category']);
 		});

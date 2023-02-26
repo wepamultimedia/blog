@@ -20,14 +20,14 @@ const resetFiltersFlap = () => {
 const viewMoreCategories = () => {
     filtersFlap.show = true;
     filtersFlap.type = "categories";
-    axios.get(route("api.blog.categories.index")).then(response => {
+    axios.get(route("api.v1.blog.categories.index")).then(response => {
         filtersFlap.categories = response.data;
     });
 };
 const viewMoreDates = () => {
     filtersFlap.show = true;
     filtersFlap.type = "dates";
-    axios.get(route("api.blog.posts.dates")).then(response => {
+    axios.get(route("api.v1.blog.posts.dates")).then(response => {
         filtersFlap.dates = response.data;
     });
 };

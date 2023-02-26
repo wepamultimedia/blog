@@ -38,7 +38,7 @@ class PostController extends InertiaController
         $category = Category::find($request->categoryId);
         $dates = $this->api->dates($request, 5);
 
-        $posts = Post::when($request->search,
+        $posts = tap(Post::when($request->search,
             function ($query, $search) {
                 $query->whereTranlation('title', 'LIKE', '%'.$search.'%');
             })
@@ -54,8 +54,14 @@ class PostController extends InertiaController
             })
             ->with('seo')
             ->orderBy('position', 'desc')
-            ->paginate();
-
+            ->paginate())
+	        ->map(function ($post){
+		        $post['url'] = request()->root() . '/' . $post->seo->slug;
+		        $post['category'] = $post->category->name ?? '';
+		
+		        return $post->only(['id', 'title', 'summary', 'cover', 'cover_alt', 'url', 'start_at', 'category']);
+	        });
+		
         return $this->render('Vendor/Blog/Frontend/Post/Index',
             ['posts', 'categories'],
             compact(['posts', 'categories', 'category', 'dates']));
