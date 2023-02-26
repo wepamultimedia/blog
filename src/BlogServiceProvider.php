@@ -9,6 +9,7 @@ use Wepa\Blog\Commands\BlogDemoCommand;
 use Wepa\Blog\Commands\BlogInstallCommand;
 use Wepa\Blog\Commands\BlogSymLinkCommand;
 use Wepa\Blog\Commands\BlogUninstallCommand;
+use Wepa\Blog\Commands\BlogUpdateCommand;
 use Wepa\Blog\Database\seeders\DefaultSeeder;
 
 class BlogServiceProvider extends PackageServiceProvider
@@ -66,6 +67,7 @@ class BlogServiceProvider extends PackageServiceProvider
             ->hasCommands([
                 BlogDemoCommand::class,
                 BlogInstallCommand::class,
+                BlogUpdateCommand::class,
                 BlogUninstallCommand::class,
                 BlogSymLinkCommand::class,
             ]);

@@ -76,6 +76,8 @@ class PostController extends InertiaController
      */
     public function show(Post $post): Response
     {
+		$post->visit()->withSession();
+		
         $categories = Category::where(['published' => true])
             ->orderBy('position', 'desc')
             ->with('seo')

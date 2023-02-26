@@ -3,6 +3,8 @@
 namespace Wepa\Blog\Models;
 
 use Astrotomic\Translatable\Translatable;
+use Coderflex\Laravisit\Concerns\CanVisit;
+use Coderflex\Laravisit\Concerns\HasVisits;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -62,11 +64,12 @@ use Wepa\Core\Models\Seo;
  *
  * @mixin \Eloquent
  */
-class Post extends Model
+class Post extends Model implements CanVisit
 {
     use HasFactory;
     use PositionModelTrait;
     use Translatable;
+	use HasVisits;
 
     public array $translatedAttributes = [
         'title',
@@ -137,7 +140,7 @@ class Post extends Model
     }
 
     protected $casts = [
-        'start_at' => 'date:d M Y',
+//        'start_at' => 'date:d M Y',
     ];
 
     /**
@@ -147,4 +150,12 @@ class Post extends Model
     {
         return PostFactory::new();
     }
+	
+	/**
+	 * @return HasOne
+	 */
+	public function category(): HasOne
+	{
+		return $this->hasOne(Category::class, 'id', 'category_id');
+	}
 }
