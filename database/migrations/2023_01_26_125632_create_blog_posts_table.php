@@ -15,7 +15,6 @@ return new class extends Migration
             $table->foreignId('seo_id');
             $table->date('start_at');
             $table->string('cover');
-            $table->integer('visits')->default(0);
             $table->integer('likes')->default(0);
             $table->integer('position');
             $table->boolean('draft')->default(false);

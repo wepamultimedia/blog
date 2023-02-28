@@ -31,7 +31,7 @@ class BlogServiceProvider extends PackageServiceProvider
 	    // Components
 	    $this->publishes([
 		    __DIR__.'/../resources/js/Components' => resource_path('js/Vendor/Blog'),
-	    ], ['blog', 'blog-pages']);
+	    ], ['blog', 'blog-components']);
 
         $this->publishes([
             __DIR__.'/../tests/Unit' => base_path('tests/Unit/blog'),

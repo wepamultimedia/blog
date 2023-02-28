@@ -94,7 +94,7 @@ class CategoryFactory extends Factory
                 'controller' => PostController::class,
                 'action' => 'index',
                 'robots' => ['noindex'],
-                'package' => 'blog',
+                'package' => 'blog-demo',
                 'page_type' => 'article',
                 'title' => $attributes['name'],
                 'description' => $attributes['description'],

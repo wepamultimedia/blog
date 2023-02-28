@@ -17,7 +17,7 @@ class BlogDemoCommand extends Command
 
     public function handle(): int
     {
-	    Seo::where('package', 'blog')->delete();
+	    Seo::where('package', 'blog-demo')->delete();
 		
 	    DB::statement('SET FOREIGN_KEY_CHECKS=0;');
         $this->call('db:seed', ['class' => CategoryDemoSeeder::class]);
