@@ -24,6 +24,8 @@ class PostResource extends JsonResource
 	        'url' => request()->root() . '/' . $this->seo->slug,
 	        'start_at' => $this->start_at,
 	        'category_name' => $this->category_name,
+	        'visits' => $this->visits()->count(),
+	        'likes' => $this->likes,
 	        'slug' => $this->seo->slug,
 	        'body' => $this->when(!$request->routeIs('*blog*.index'), function(){
 				return $this->body;
