@@ -55,7 +55,7 @@ function submit() {
     </div>
     <form @submit.prevent="submit">
         <div class="max-w-7xl">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 text-skin-base dark:text-skin-base-dark">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 text-skin-base ">
                 <div class="col-span-1">
                     <p class="text-sm"
                        v-html="__('edit_summary')"></p>
@@ -93,7 +93,7 @@ function submit() {
                     </div>
                 </div>
             </div>
-        <div class="text-skin-base dark:text-skin-base-dark my-8">
+        <div class="text-skin-base  my-8">
             <SeoForm v-model:locale="selectedLocale"
                      :description="inputValues.description"
                      :errors="form.errors?.seo"

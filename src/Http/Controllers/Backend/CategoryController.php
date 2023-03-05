@@ -55,7 +55,7 @@ class CategoryController extends InertiaController
     {
         $categories = Category::when($request->search,
             function ($query, $search) {
-                $query->whereTranlation('name', 'LIKE', '%'.$search.'%');
+                $query->whereTranslationLike('name', '%' . $search . '%');
             })
             ->where(['parent_id' => null])
             ->orderBy('position', 'desc')->paginate();

@@ -72,7 +72,6 @@ function submit() {
     <form class="pb-8"
           @submit.prevent="submit">
         <div class="text-skin-base
-                    dark:text-skin-base-dark
                     border
                     dark:border-gray-600
                     bg-white dark:bg-gray-600

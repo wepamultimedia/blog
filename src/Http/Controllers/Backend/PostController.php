@@ -103,7 +103,7 @@ class PostController extends InertiaController
 
         $posts = Post::when($request->search,
             function ($query, $search) {
-                $query->whereTranlation('title', 'LIKE', '%'.$search.'%');
+                $query->whereTranslationLike('title', '%' . $search . '%');
             })
             ->when($request->categoryId,
                 function ($query, $categoryId) {

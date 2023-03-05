@@ -69,143 +69,145 @@ use Wepa\Core\Models\Seo;
  */
 class Post extends Model implements CanVisit
 {
-	use HasFactory;
-	use PositionModelTrait;
-	use Translatable;
-	use HasVisits;
-	
-	
-	public array $translatedAttributes = [
-		'title',
-		'summary',
-		'body',
-		'cover_title',
-		'cover_alt',
-	];
-	public $translationForeignKey = 'post_id';
-	
-	protected $appends = ['total_visits', 'category_name', 'url'];
-	protected array $attrsArray = [];
-	protected $fillable = [
-		'user_id',
-		'category_id',
-		'seo_id',
-		'cover',
-		'start_at',
-		'video_cover',
-		'likes',
-		'position',
-		'draft',
-	];
-	protected $table = 'blog_posts';
-	
-	/**
-	 * @return $this
-	 */
-	public function attrsToArray(array|string $attrs = []): static
-	{
-		if(is_array($attrs)) {
-			$this->attrsArray = array_merge($this->attrsArray, $attrs);
-		} else {
-			$this->attrsArray[] = $attrs;
-		}
-		
-		return $this;
-	}
-	
-	/**
-	 * @return HasOne
-	 */
-	public function category(): HasOne
-	{
-		return $this->hasOne(Category::class, 'id', 'category_id');
-	}
-	
-	/**
-	 * @return HasOne
-	 */
-	public function seo(): HasOne
-	{
-		return $this->hasOne(Seo::class, 'id', 'seo_id')
-			->withDefault([
-				'controller' => PostController::class,
-				'action' => 'show',
-			]);
-	}
-	
-	/**
-	 * @return array
-	 */
-	public function toArray(): array
-	{
-		$collection = collect(parent::toArray())->except(['translations']);
-		
-		foreach($this->attrsArray as $attr) {
-			if($attr === 'translations') {
-				$collection = $collection->merge([$attr => $this->getTranslationsArray()]);
-			} else {
-				$collection = $collection->merge([$attr => $this->{$attr}]);
-			}
-		}
-		
-		return $collection->toArray();
-	}
-	
-	/**
-	 * @return PostFactory
-	 */
-	protected static function newFactory(): PostFactory
-	{
-		return PostFactory::new();
-	}
-	
-	/**
-	 * @return Attribute
-	 */
-	protected function startAt(): Attribute
-	{
-		return Attribute::make(
-			get: fn(string $value) => Carbon::createFromDate($value)->translatedFormat('d M Y')
-		);
-	}
-	
-	/**
-	 * @return Attribute
-	 */
-	protected function totalVisits(): Attribute
-	{
-		return Attribute::make(
-			get: fn() => $this->visits()->count()
-		);
-	}
-	
-	/**
-	 * @return Attribute
-	 */
-	protected function categoryName(): Attribute
-	{
-		return Attribute::make(
-			get: fn() => $this->category->name
-		);
-	}
-	
-	/**
-	 * @return Attribute
-	 */
-	protected function url(): Attribute
-	{
-		return Attribute::make(
-			get: fn() => request()->root() . '/' . $this->seo->slug
-		);
-	}
-	
-	/**
-	 * @return Attribute
-	 */
-	protected function slug(): Attribute
-	{
-		return Attribute::make(
-			get: fn() => $this->seo->slug
-		);
-	}
+    use HasFactory;
+    use PositionModelTrait;
+    use Translatable;
+    use HasVisits;
+    
+    
+    public array $translatedAttributes = [
+        'title',
+        'summary',
+        'body',
+        'cover_title',
+        'cover_alt',
+    ];
+    public $translationForeignKey = 'post_id';
+    
+    protected $appends = ['total_visits', 'category_name', 'url'];
+    
+    protected array $attrsArray = [];
+    
+    protected $fillable = [
+        'user_id',
+        'category_id',
+        'seo_id',
+        'cover',
+        'start_at',
+        'video_cover',
+        'likes',
+        'position',
+        'draft',
+    ];
+    protected $table = 'blog_posts';
+    
+    /**
+     * @return $this
+     */
+    public function attrsToArray(array|string $attrs = []): static
+    {
+        if (is_array($attrs)) {
+            $this->attrsArray = array_merge($this->attrsArray, $attrs);
+        } else {
+            $this->attrsArray[] = $attrs;
+        }
+        
+        return $this;
+    }
+    
+    /**
+     * @return HasOne
+     */
+    public function category(): HasOne
+    {
+        return $this->hasOne(Category::class, 'id', 'category_id');
+    }
+    
+    /**
+     * @return HasOne
+     */
+    public function seo(): HasOne
+    {
+        return $this->hasOne(Seo::class, 'id', 'seo_id')
+            ->withDefault([
+                'controller' => PostController::class,
+                'action' => 'show',
+            ]);
+    }
+    
+    /**
+     * @return array
+     */
+    public function toArray(): array
+    {
+        $collection = collect(parent::toArray())->except(['translations']);
+        
+        foreach ($this->attrsArray as $attr) {
+            if ($attr === 'translations') {
+                $collection = $collection->merge([$attr => $this->getTranslationsArray()]);
+            } else {
+                $collection = $collection->merge([$attr => $this->{$attr}]);
+            }
+        }
+        
+        return $collection->toArray();
+    }
+    
+    /**
+     * @return Attribute
+     */
+    protected function categoryName(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->category->name ?? null
+        );
+    }
+    
+    /**
+     * @return PostFactory
+     */
+    protected static function newFactory(): PostFactory
+    {
+        return PostFactory::new();
+    }
+    
+    /**
+     * @return Attribute
+     */
+    protected function slug(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->seo->slug
+        );
+    }
+    
+    /**
+     * @return Attribute
+     */
+    protected function startAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn(string $value) => Carbon::createFromDate($value)->translatedFormat('d M Y')
+        );
+    }
+    
+    /**
+     * @return Attribute
+     */
+    protected function totalVisits(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->visits()->count()
+        );
+    }
+    
+    /**
+     * @return Attribute
+     */
+    protected function url(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => request()->root().'/'.$this->seo->slug
+        );
+    }
 }

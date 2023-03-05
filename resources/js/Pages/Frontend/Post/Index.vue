@@ -48,7 +48,7 @@ const showDatesFlap = ref(false);
                         </div>
                     </figure>
                     <h2 class="mt-3">{{ post.title }}</h2>
-                    <h4 class="mt-2 text-skin-base dark:text-skin-base-dark">{{ post.summary }}</h4>
+                    <h4 class="mt-2 text-skin-base ">{{ post.summary }}</h4>
                 </a>
             </div>
             <!-- Pagination -->

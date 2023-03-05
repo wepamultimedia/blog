@@ -40,7 +40,7 @@ const updatePosition = (item, position) => {
 </script>
 <template>
     <div class="flex justify-between my-0 items-center h-14 rounded-lg overflow-hidden my-6">
-        <span class="text-skin-base dark:text-skin-base-dark font-medium text-xl">{{ __("categories_list") }}</span>
+        <span class="text-skin-base  font-medium text-xl">{{ __("categories_list") }}</span>
         <Link :href="route('admin.blog.categories.create')"
               as="button"
               class="btn btn-success text-sm"
@@ -51,7 +51,7 @@ const updatePosition = (item, position) => {
                     bg-white dark:bg-gray-700
                     overflow-hidden
                     shadow
-                    text-skin-base dark:text-skin-base-dark
+                    text-skin-base
                     rounded-lg
                     mb-20">
         <Table :columns="['name', 'published', 'position']"
@@ -69,17 +69,17 @@ const updatePosition = (item, position) => {
                 <div class="flex items-center justify-start">
                     <div class="inline-flex"
                          role="group">
-                        <button class="rounded-l inline-block px-1 py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight uppercase hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-0 active:bg-gray-800 transition duration-150 ease-in-out"
+                        <button class="rounded-l-lg px-1 py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight uppercase hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-0 active:bg-gray-800 transition duration-150 ease-in-out"
                                 type="button"
                                 @click="updatePosition(item, item.position + 1)">
                             <Icon class="m-0 fill-white h-4 w-4"
                                   icon="chevron-up"></Icon>
                         </button>
-                        <span class="inline-block px-2 py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight uppercase"
+                        <span class="px-2 py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight uppercase"
                               type="button">
                             {{ item.position }}
                         </span>
-                        <button class="rounded-r inline-block px-1 py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight uppercase hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-0 active:bg-gray-800 transition duration-150 ease-in-out"
+                        <button class="rounded-r-lg px-1 py-2.5 bg-gray-400 text-white font-medium text-xs leading-tight uppercase hover:bg-gray-700 focus:bg-gray-700 focus:outline-none focus:ring-0 active:bg-gray-800 transition duration-150 ease-in-out"
                                 type="button"
                                 @click="updatePosition(item, item.position - 1)">
                             <Icon class="m-0 fill-white h-4 w-4"
