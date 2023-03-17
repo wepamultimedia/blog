@@ -69,7 +69,6 @@ class PostController extends InertiaController
 		$categories = Category::where(['published' => true])
 			->orderBy('position', 'desc')
 			->with('seo')
-			->limit(5)
 			->get();
 		
 		$dates = $this->api->dates(request());

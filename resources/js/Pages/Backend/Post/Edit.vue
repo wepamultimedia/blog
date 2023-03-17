@@ -58,8 +58,8 @@ function submit() {
     form.put(route("admin.blog.posts.update", {post: post.value.id}), {
         preserveState: true,
         preserveScroll: true,
-        onSuccess: () => store.dispatch("addAlert", {type: "success", message: __("saved")}),
-        onError: () => store.dispatch("addAlert", {type: "error", message: errors.value})
+        onSuccess: () => store.dispatch("backend/addAlert", {type: "success", message: __("saved")}),
+        onError: () => store.dispatch("backend/addAlert", {type: "error", message: errors.value})
     });
 }
 </script>
