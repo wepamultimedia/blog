@@ -73,6 +73,7 @@ function submit() {
                                    v-model:value="inputValues.name"
                                    :errors="form.errors"
                                    :label="__('name')"
+                                   autofocus
                                    name="name"
                                    translation/>
                         </div>
@@ -93,13 +94,13 @@ function submit() {
                     </div>
                 </div>
             </div>
-        <div class="text-skin-base  my-8">
-            <SeoForm v-model:locale="selectedLocale"
-                     :description="inputValues.description"
-                     :errors="form.errors?.seo"
-                     v-model:seo="form.seo"
-                     :title="inputValues.name"/>
-        </div>
+            <div class="text-skin-base  my-8">
+                <SeoForm v-model:locale="selectedLocale"
+                         v-model:seo="form.seo"
+                         :description="inputValues.description"
+                         :errors="form.errors?.seo"
+                         :title="inputValues.name"/>
+            </div>
         </div>
     </form>
 </template>

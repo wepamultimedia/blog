@@ -70,6 +70,7 @@ function submit() {
     <form class="pb-8"
           @submit.prevent="submit">
         <div class="text-skin-base
+
                     border
                     dark:border-gray-600
                     bg-white dark:bg-gray-600
@@ -84,6 +85,7 @@ function submit() {
                                v-model:value="values.title"
                                :errors="errors"
                                :label="__('title')"
+                               autofocus
                                name="title"
                                required
                                translation/>
@@ -140,19 +142,19 @@ function submit() {
                                     :options="categories"
                                     name="category_id"
                                     option-label="name"
-                                    required
-                                    reduce></Select>
+                                    reduce
+                                    required></Select>
                         </div>
                     </div>
                     <!-- cover -->
                     <div class="p-6">
                         <div class="mb-6">
                             <Textarea v-model="form"
-                                   v-model:locale="selectedLocale"
-                                   :errors="errors"
-                                   :legend="__('video_cover_legend')"
-                                   :label="__('video_cover')"
-                                   name="video_cover"/>
+                                      v-model:locale="selectedLocale"
+                                      :errors="errors"
+                                      :label="__('video_cover')"
+                                      :legend="__('video_cover_legend')"
+                                      name="video_cover"/>
                         </div>
                         <div class="sm:w-1/2 lg:w-full mb-6">
                             <InputImage v-model="form.cover"

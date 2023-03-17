@@ -66,6 +66,7 @@ function submit() {
                                    v-model:value="inputValues.name"
                                    :errors="form.errors"
                                    :label="__('name')"
+                                   autofocus
                                    name="name"
                                    translation/>
                         </div>
