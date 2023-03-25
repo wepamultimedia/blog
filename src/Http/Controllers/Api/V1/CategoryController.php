@@ -12,10 +12,6 @@ class CategoryController extends Controller
 {
     use SeoControllerTrait;
 
-    /**
-     * @param  Request  $request
-     * @return Collection
-     */
     public function index(Request $request): Collection
     {
         return Category::when($request->search, function ($query, $search) {

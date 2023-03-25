@@ -15,9 +15,6 @@ class BlogInstallCommand extends Command
 
     protected array $vendor = [];
 
-    /**
-     * @return int
-     */
     public function handle(): int
     {
         $this->call('migrate');

@@ -21,9 +21,6 @@ class CategoryController extends InertiaController
 
     /**
      * Remove the specified resource from storage.
-     *
-     * @param  Category  $category
-     * @return Application|Redirector|RedirectResponse
      */
     public function destroy(Category $category): Redirector|RedirectResponse|Application
     {
@@ -36,10 +33,6 @@ class CategoryController extends InertiaController
         return redirect(route('admin.blog.categories.index'));
     }
 
-    /**
-     * @param  Category  $category
-     * @return \Inertia\Response
-     */
     public function edit(Category $category): \Inertia\Response
     {
         return $this->render('Vendor/Blog/Backend/Category/Edit',
@@ -47,15 +40,11 @@ class CategoryController extends InertiaController
             ['category' => $category->attrsToArray(['seo', 'translations'])]);
     }
 
-    /**
-     * @param  Request  $request
-     * @return \Inertia\Response
-     */
     public function index(Request $request): \Inertia\Response
     {
         $categories = Category::when($request->search,
             function ($query, $search) {
-                $query->whereTranslationLike('name', '%' . $search . '%');
+                $query->whereTranslationLike('name', '%'.$search.'%');
             })
             ->where(['parent_id' => null])
             ->orderBy('position', 'desc')->paginate();
@@ -65,32 +54,18 @@ class CategoryController extends InertiaController
             ['categories' => $categories]);
     }
 
-    /**
-     * @param  Category  $category
-     * @param  int  $position
-     * @return void
-     */
     public function position(Category $category, int $position): void
     {
         $category->updatePosition($position,
             ['parent_id' => $category->parent_id]);
     }
 
-    /**
-     * @param  Category  $category
-     * @param  bool  $published
-     * @return void
-     */
     public function publish(Category $category, bool $published): void
     {
         $category->update(['published' => $published]);
     }
 
     /**
-     * @param  CategoryRequest  $request
-     * @param  Category  $category
-     * @return Application|RedirectResponse|Redirector
-     *
      * @throws BindingResolutionException
      */
     public function update(CategoryRequest $request,
@@ -114,7 +89,6 @@ class CategoryController extends InertiaController
     /**
      * Display the specified resource.
      *
-     * @param  Category  $category
      * @return Response
      */
     public function show(Category $category)
@@ -123,9 +97,6 @@ class CategoryController extends InertiaController
     }
 
     /**
-     * @param  CategoryRequest  $request
-     * @return Redirector|RedirectResponse|Application
-     *
      * @throws BindingResolutionException
      */
     public function store(CategoryRequest $request): Redirector|RedirectResponse|Application
@@ -143,9 +114,6 @@ class CategoryController extends InertiaController
         return redirect(route('admin.blog.categories.index'));
     }
 
-    /**
-     * @return \Inertia\Response
-     */
     public function create(): \Inertia\Response
     {
         return $this->render('Vendor/Blog/Backend/Category/Create', ['core::seo', 'categories'], [

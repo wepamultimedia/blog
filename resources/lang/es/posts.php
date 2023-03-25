@@ -26,7 +26,7 @@ return [
     'cover_image' => 'Imágen de portada',
     'dates' => 'Fechas',
     'clear_filters' => 'Limpiar filtros',
-	'video_cover' => 'Video de portada',
-	'video_cover_legend' => 'Solo videos de Youtube o Vimeo',
-	
+    'video_cover' => 'Video de portada',
+    'video_cover_legend' => 'Solo videos de Youtube o Vimeo',
+
 ];

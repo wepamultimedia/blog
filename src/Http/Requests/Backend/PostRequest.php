@@ -28,9 +28,6 @@ class PostRequest extends FormRequest
         return true;
     }
 
-    /**
-     * @return array
-     */
     public function messages(): array
     {
         $locale = config('app.locale');

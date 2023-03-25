@@ -22,10 +22,6 @@ class PostController extends InertiaController
 
     public string $packageName = 'blog';
 
-    /**
-     * @param  Post  $post
-     * @return Application|RedirectResponse|Redirector
-     */
     public function destroy(Post $post): Redirector|RedirectResponse|Application
     {
         if ($post->seo_id) {
@@ -43,10 +39,6 @@ class PostController extends InertiaController
     }
 
     /**
-     * @param  PostRequest  $request
-     * @param  Post  $post
-     * @return Redirector|RedirectResponse|Application
-     *
      * @throws ValidationException
      */
     public function update(PostRequest $request,
@@ -65,9 +57,6 @@ class PostController extends InertiaController
         return redirect(route('admin.blog.posts.index'));
     }
 
-    /**
-     * @return Response
-     */
     public function create(): Response
     {
         $categories = Category::where(['parent_id' => null])->get()->toArray();
@@ -78,10 +67,6 @@ class PostController extends InertiaController
             compact(['post', 'categories']));
     }
 
-    /**
-     * @param  Post  $post
-     * @return Response
-     */
     public function edit(Post $post): Response
     {
         $categories = Category::get();
@@ -93,9 +78,7 @@ class PostController extends InertiaController
     }
 
     /**
-     * @param  Request  $request
      * @param  Category|null  $category
-     * @return Response
      */
     public function index(Request $request): Response
     {
@@ -103,7 +86,7 @@ class PostController extends InertiaController
 
         $posts = Post::when($request->search,
             function ($query, $search) {
-                $query->whereTranslationLike('title', '%' . $search . '%');
+                $query->whereTranslationLike('title', '%'.$search.'%');
             })
             ->when($request->categoryId,
                 function ($query, $categoryId) {
@@ -117,11 +100,6 @@ class PostController extends InertiaController
             compact(['posts', 'categories']));
     }
 
-    /**
-     * @param  Post  $post
-     * @param  int  $position
-     * @return Application|Redirector|RedirectResponse
-     */
     public function position(Post $post,
                              int $position): Application|RedirectResponse|Redirector
     {
@@ -131,9 +109,6 @@ class PostController extends InertiaController
     }
 
     /**
-     * @param  PostRequest  $request
-     * @return Redirector|RedirectResponse|Application
-     *
      * @throws BindingResolutionException
      */
     public function store(PostRequest $request): Redirector|RedirectResponse|Application

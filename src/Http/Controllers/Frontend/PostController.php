@@ -2,7 +2,6 @@
 
 namespace Wepa\Blog\Http\Controllers\Frontend;
 
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use Wepa\Blog\Http\Resources\V1\PostResource;
@@ -13,67 +12,60 @@ use Wepa\Core\Http\Traits\Frontend\SeoControllerTrait;
 
 class PostController extends InertiaController
 {
-	use SeoControllerTrait;
-	
-	public string $packageName = 'blog';
-	
-	private \Wepa\Blog\Http\Controllers\Api\V1\PostController $api;
-	
-	public function __construct()
-	{
-		$this->api = new \Wepa\Blog\Http\Controllers\Api\V1\PostController();
-	}
-	
-	/**
-	 * @param  Request  $request
-	 * @return Response
-	 */
-	public function index(Request $request)
-	{
-		$categories = Category::where(['published' => true])
-			->orderBy('position', 'desc')
-			->with('seo')
-			->get();
-		
-		$category = Category::find($request->categoryId);
-		$dates = $this->api->dates($request, 5);
-		
-		$posts = $this->api->index($request);
-		
-		$popular = $this->api->popular();
-		
-		return $this->render('Vendor/Blog/Frontend/Post/Index',
-			['posts', 'categories'],
-			compact(['posts', 'categories', 'category', 'dates', 'popular']));
-	}
-	
-	/**
-	 * @param  Request  $request
-	 * @return array
-	 */
-	public function dates(Request $request): array
-	{
-		return $this->api->dates($request);
-	}
-	
-	/**
-	 * @param  Post  $post
-	 * @return Response
-	 */
-	public function show(Post $post): Response
-	{
-		$post->visit()->withSession();
-		
-		$post = PostResource::make($post);
-		
-		$categories = Category::where(['published' => true])
-			->orderBy('position', 'desc')
-			->with('seo')
-			->get();
-		
-		$dates = $this->api->dates(request());
-		$popular = $this->api->popular();
-		
-		return $this->render('Vendor/Blog/Frontend/Post/Show', ['posts', 'categories'], compact(['post', 'categories', 'dates', 'popular']));
-	}
+    use SeoControllerTrait;
+
+    public string $packageName = 'blog';
+
+    private \Wepa\Blog\Http\Controllers\Api\V1\PostController $api;
+
+    public function __construct()
+    {
+        $this->api = new \Wepa\Blog\Http\Controllers\Api\V1\PostController();
+    }
+
+    /**
+     * @return Response
+     */
+    public function index(Request $request)
+    {
+        $this->addSeo('blog');
+
+        $categories = Category::where(['published' => true])
+            ->orderBy('position', 'desc')
+            ->with('seo')
+            ->get();
+
+        $category = Category::find($request->categoryId);
+        $dates = $this->api->dates($request, 5);
+
+        $posts = $this->api->index($request);
+
+        $popular = $this->api->popular();
+
+        return $this->render('Vendor/Blog/Frontend/Post/Index',
+            ['posts', 'categories'],
+            compact(['posts', 'categories', 'category', 'dates', 'popular']));
+    }
+
+    public function dates(Request $request): array
+    {
+        return $this->api->dates($request);
+    }
+
+    public function show(Post $post): Response
+    {
+        $post->visit()->withSession();
+
+        $post = PostResource::make($post);
+
+        $categories = Category::where(['published' => true])
+            ->orderBy('position', 'desc')
+            ->with('seo')
+            ->get();
+
+        $dates = $this->api->dates(request());
+        $popular = $this->api->popular();
+
+        return $this->render('Vendor/Blog/Frontend/Post/Show', ['posts', 'categories'], compact(['post', 'categories', 'dates', 'popular']));
+    }
 }

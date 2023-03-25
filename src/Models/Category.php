@@ -102,9 +102,6 @@ class Category extends Model
 
     protected $table = 'blog_categories';
 
-    /**
-     * @return HasOne
-     */
     public function seo(): HasOne
     {
         return $this->hasOne(Seo::class, 'id', 'seo_id')
@@ -138,9 +135,6 @@ class Category extends Model
         );
     }
 
-    /**
-     * @return CategoryFactory
-     */
     protected static function newFactory(): CategoryFactory
     {
         return CategoryFactory::new();

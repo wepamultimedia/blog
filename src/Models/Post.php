@@ -2,7 +2,6 @@
 
 namespace Wepa\Blog\Models;
 
-
 use Astrotomic\Translatable\Translatable;
 use Coderflex\Laravisit\Concerns\CanVisit;
 use Coderflex\Laravisit\Concerns\HasVisits;
@@ -16,7 +15,6 @@ use Wepa\Blog\Database\Factories\PostFactory;
 use Wepa\Blog\Http\Controllers\Frontend\PostController;
 use Wepa\Core\Http\Traits\Backend\PositionModelTrait;
 use Wepa\Core\Models\Seo;
-
 
 /**
  * Wepa\Blog\Models\Post
@@ -73,8 +71,7 @@ class Post extends Model implements CanVisit
     use PositionModelTrait;
     use Translatable;
     use HasVisits;
-    
-    
+
     public array $translatedAttributes = [
         'title',
         'summary',
@@ -82,12 +79,13 @@ class Post extends Model implements CanVisit
         'cover_title',
         'cover_alt',
     ];
+
     public $translationForeignKey = 'post_id';
-    
+
     protected $appends = ['total_visits', 'category_name', 'url'];
-    
+
     protected array $attrsArray = [];
-    
+
     protected $fillable = [
         'user_id',
         'category_id',
@@ -99,8 +97,9 @@ class Post extends Model implements CanVisit
         'position',
         'draft',
     ];
+
     protected $table = 'blog_posts';
-    
+
     /**
      * @return $this
      */
@@ -111,21 +110,15 @@ class Post extends Model implements CanVisit
         } else {
             $this->attrsArray[] = $attrs;
         }
-        
+
         return $this;
     }
-    
-    /**
-     * @return HasOne
-     */
+
     public function category(): HasOne
     {
         return $this->hasOne(Category::class, 'id', 'category_id');
     }
-    
-    /**
-     * @return HasOne
-     */
+
     public function seo(): HasOne
     {
         return $this->hasOne(Seo::class, 'id', 'seo_id')
@@ -134,14 +127,11 @@ class Post extends Model implements CanVisit
                 'action' => 'show',
             ]);
     }
-    
-    /**
-     * @return array
-     */
+
     public function toArray(): array
     {
         $collection = collect(parent::toArray())->except(['translations']);
-        
+
         foreach ($this->attrsArray as $attr) {
             if ($attr === 'translations') {
                 $collection = $collection->merge([$attr => $this->getTranslationsArray()]);
@@ -149,65 +139,47 @@ class Post extends Model implements CanVisit
                 $collection = $collection->merge([$attr => $this->{$attr}]);
             }
         }
-        
+
         return $collection->toArray();
     }
-    
-    /**
-     * @return Attribute
-     */
+
     protected function categoryName(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->category->name ?? null
+            get: fn () => $this->category->name ?? null
         );
     }
-    
-    /**
-     * @return PostFactory
-     */
+
     protected static function newFactory(): PostFactory
     {
         return PostFactory::new();
     }
-    
-    /**
-     * @return Attribute
-     */
+
     protected function slug(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->seo->slug
+            get: fn () => $this->seo->slug
         );
     }
-    
-    /**
-     * @return Attribute
-     */
+
     protected function startAt(): Attribute
     {
         return Attribute::make(
-            get: fn(string $value) => Carbon::createFromDate($value)->translatedFormat('d M Y')
+            get: fn (string $value) => Carbon::createFromDate($value)->translatedFormat('d M Y')
         );
     }
-    
-    /**
-     * @return Attribute
-     */
+
     protected function totalVisits(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->visits()->count()
+            get: fn () => $this->visits()->count()
         );
     }
-    
-    /**
-     * @return Attribute
-     */
+
     protected function url(): Attribute
     {
         return Attribute::make(
-            get: fn() => request()->root().'/'.$this->seo->slug
+            get: fn () => request()->root().'/'.$this->seo->slug
         );
     }
 }
