@@ -3,6 +3,7 @@
 namespace Wepa\Blog\Http\Resources\V1;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
 
 class PostResource extends JsonResource
 {
@@ -21,7 +22,7 @@ class PostResource extends JsonResource
             'cover' => $this->cover,
             'cover_alt' => $this->cover_alt,
             'url' => request()->root().'/'.$this->seo->slug,
-            'start_at' => $this->start_at,
+            'start_at' => Carbon::createFromDate($this->start_at)->translatedFormat('d M Y'),
             'category_name' => $this->category_name,
             'visits' => $this->visits()->count(),
             'likes' => $this->likes,

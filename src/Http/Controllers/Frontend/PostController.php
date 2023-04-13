@@ -54,6 +54,10 @@ class PostController extends InertiaController
 
     public function show(Post $post): Response
     {
+        if($post->draft){
+            abort(404);
+        }
+        
         $post->visit()->withSession();
 
         $post = PostResource::make($post);

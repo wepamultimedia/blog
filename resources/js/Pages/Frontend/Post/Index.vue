@@ -52,7 +52,7 @@ const showDatesFlap = ref(false);
                 </a>
             </div>
             <!-- Pagination -->
-            <Pagination :links="posts.links"
+            <Pagination :links="posts.meta.links"
                         class="my-8"/>
         </div>
         <!-- Sidebar -->

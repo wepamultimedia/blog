@@ -20,6 +20,7 @@ class PostController extends Controller
     {
         $queryDates = Post::select(DB::raw('DATE_FORMAT(start_at, "%Y-%m") AS mdate, count(*) AS totalMonth'))
             ->where('start_at', '<=', date('Y-m-d'))
+            ->where('draft', 0)
             ->groupBy('mdate')
             ->orderBy('mdate', 'desc');
 
@@ -76,8 +77,11 @@ class PostController extends Controller
     {
     }
 
-    public function show(Post $post): PostResource
+    public function show(Post $post): ?PostResource
     {
+        if($post->draft){
+            return null;
+        }
         return PostResource::make($post);
     }
 
@@ -97,6 +101,7 @@ class PostController extends Controller
                     ['start_at', '<', Carbon::create($start_at)->addMonth(1)->format('Y-m-d')],
                 ]);
             })
+            ->where('draft', 0)
             ->orderBy('position', 'desc')
             ->paginate();
 
@@ -105,42 +110,38 @@ class PostController extends Controller
 
     public function latest(int $number = 6): mixed
     {
-        $posts = Post::with('category')->orderBy('position', 'desc')
+        $posts = Post::with('category')
+            ->orderBy('position', 'desc')
+            ->where('draft', 0)
             ->limit($number)
             ->get();
-
-        return $posts->map(function ($post) {
-            return $post->only(['id', 'title', 'summary', 'cover', 'cover_alt', 'url', 'start_at', 'category_name']);
-        });
+        
+        return PostResource::collection($posts);
     }
 
     public function popular(string $timeFrame = 'thisWeek', int $limit = 5): mixed
     {
         $timeFrames = ['today', 'thisWeek', 'lastWeek', 'thisMonth', 'lastMonth'];
-        $popular = null;
+        $posts = null;
 
         switch($timeFrame) {
             case 'today':
-                $popular = Post::popularToday()->limit($limit)->get();
+                $posts = Post::popularToday()->where('draft', 0)->limit($limit)->get();
                 break;
             case 'thisWeek':
-                $popular = Post::popularThisWeek()->limit($limit)->get();
+                $posts = Post::popularThisWeek()->where('draft', 0)->limit($limit)->get();
                 break;
             case 'lastWeek':
-                $popular = Post::popularLastWeek()->limit($limit)->get();
+                $posts = Post::popularLastWeek()->where('draft', 0)->limit($limit)->get();
                 break;
             case 'thisMonth':
-                $popular = Post::popularThisMonth()->limit($limit)->get();
+                $posts = Post::popularThisMonth()->where('draft', 0)->limit($limit)->get();
                 break;
             case 'lastMonth':
-                $popular = Post::popularLastMonth()->limit($limit)->get();
+                $posts = Post::popularLastMonth()->where('draft', 0)->limit($limit)->get();
                 break;
         }
-
-        return $popular->map(function ($post) {
-            $post['slug'] = $post->seo->slug;
-
-            return $post->only(['title', 'cover', 'cover_alt', 'slug']);
-        });
+    
+        return PostResource::collection($posts);
     }
 }

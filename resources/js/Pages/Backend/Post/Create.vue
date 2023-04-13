@@ -131,7 +131,7 @@ function submit() {
                                         :close-on-auto-apply="true"
                                         :enableTimePicker="false"
                                         class="mt-1"
-                                        format=""
+                                        format="d/M/yyyy"
                                         locale="es"></Datepicker>
                             <div v-if="errors['start_at']"
                                  class="text-red-300 text-sm mt-1">* {{ errors["start_at"] }}

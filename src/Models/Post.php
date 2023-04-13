@@ -162,13 +162,6 @@ class Post extends Model implements CanVisit
         );
     }
 
-    protected function startAt(): Attribute
-    {
-        return Attribute::make(
-            get: fn (string $value) => Carbon::createFromDate($value)->translatedFormat('d M Y')
-        );
-    }
-
     protected function totalVisits(): Attribute
     {
         return Attribute::make(
