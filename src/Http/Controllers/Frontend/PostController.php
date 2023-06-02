@@ -9,8 +9,8 @@ use Wepa\Blog\Http\Resources\V1\PostResource;
 use Wepa\Blog\Models\Category;
 use Wepa\Blog\Models\Post;
 use Wepa\Core\Http\Controllers\Frontend\InertiaController;
+use Wepa\Blog\Http\Helpers\ClientHelper;
 use Wepa\Core\Http\Traits\Frontend\SeoControllerTrait;
-use Jaybizzle\LaravelCrawlerDetect\Facades\LaravelCrawlerDetect as Crawler;
 
 class PostController extends InertiaController
 {
@@ -60,7 +60,7 @@ class PostController extends InertiaController
             abort(404);
         }
         
-        if(!Crawler::isCrawler()){
+        if(!ClientHelper::isCrawler()){
             $post->visit()->withSession();
         }
 
