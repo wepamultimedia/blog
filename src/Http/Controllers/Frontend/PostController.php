@@ -4,11 +4,13 @@ namespace Wepa\Blog\Http\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use Inertia\Response;
+use Jaybizzle\LaravelCrawlerDetect\Facades\LaravelCrawlerDetect;
 use Wepa\Blog\Http\Resources\V1\PostResource;
 use Wepa\Blog\Models\Category;
 use Wepa\Blog\Models\Post;
 use Wepa\Core\Http\Controllers\Frontend\InertiaController;
 use Wepa\Core\Http\Traits\Frontend\SeoControllerTrait;
+use Jaybizzle\LaravelCrawlerDetect\Facades\LaravelCrawlerDetect as Crawler;
 
 class PostController extends InertiaController
 {
@@ -58,7 +60,9 @@ class PostController extends InertiaController
             abort(404);
         }
         
-        $post->visit()->withSession();
+        if(!Crawler::isCrawler()){
+            $post->visit()->withSession();
+        }
 
         $post = PostResource::make($post);
 
