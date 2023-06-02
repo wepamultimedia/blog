@@ -61,7 +61,7 @@ class PostController extends InertiaController
         }
         
         if(!ClientHelper::isCrawler()){
-            $post->visit()->withSession();
+            $post->visit()->withIP();
         }
 
         $post = PostResource::make($post);
