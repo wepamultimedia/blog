@@ -61,7 +61,7 @@ class PostController extends InertiaController
         }
         
         if(!ClientHelper::isCrawler()){
-            $post->visit()->withIP();
+            $post->visit()->withIP()->withData(['user-agent' => $_SERVER['HTTP_USER_AGENT']]);
         }
 
         $post = PostResource::make($post);
