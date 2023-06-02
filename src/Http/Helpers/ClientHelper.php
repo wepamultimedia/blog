@@ -11,8 +11,10 @@ class ClientHelper
                 $_SERVER['HTTP_USER_AGENT'])) {
                 return true;
             }
+            
+            return false;
         }
         
-        return false;
+        return true;
     }
 }
