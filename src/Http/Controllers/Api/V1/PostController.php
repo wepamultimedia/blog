@@ -144,4 +144,9 @@ class PostController extends Controller
     
         return PostResource::collection($posts);
     }
+    
+    public function visit(Post $post): void
+    {
+        $post->visit()->withIP()->withData(['date' => $post->start_at,'user-agent' => $_SERVER['HTTP_USER_AGENT']]);
+    }
 }

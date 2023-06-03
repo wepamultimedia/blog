@@ -6,18 +6,33 @@ export default {
 };
 </script>
 <script setup>
-import { Link } from "@inertiajs/vue3";
 import SocialShare from "@core/Components/SocialShare.vue";
 import CategoriesList from "@/Vendor/Blog/Components/Frontend/Posts/CategoriesList.vue";
 import CategoriesFlap from "@/Vendor/Blog/Components/Frontend/Posts/CategoriesFlap.vue";
 import DatesList from "@/Vendor/Blog/Components/Frontend/Posts/DatesList.vue";
 import DatesFlap from "@/Vendor/Blog/Components/Frontend/Posts/DatesFlap.vue";
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import axios from "axios";
 
 const props = defineProps(["post", "categories", "dates"]);
 
 const showCategoriesFlap = ref(false);
 const showDatesFlap = ref(false);
+
+let countedVisit = false;
+
+function countVisit() {
+    if (!countedVisit){
+        countedVisit = true;
+        console.log('move');
+        axios.post(route("api.v1.blog.post.visit", {post: props.post.data.id}));
+        window.document.removeEventListener("mousemove", countVisit);
+    }
+}
+
+onMounted(() => {
+    window.document.addEventListener("mousemove", countVisit);
+});
 </script>
 <template>
     <div class="grid grid-cols-8 gap-2">
@@ -58,7 +73,8 @@ const showDatesFlap = ref(false);
                 </div>
             </figure>
             <h3 class="mt-6">{{ post.data.title }}</h3>
-            <p class="mt-6" v-html="post.data.body"></p>
+            <p class="mt-6"
+               v-html="post.data.body"></p>
         </div>
         <div class="col-span-full md:col-span-2 lg:col-span-2 md:pl-8 mt-8 md:mt-0">
             <div class="sticky top-10">

@@ -60,10 +60,6 @@ class PostController extends InertiaController
             abort(404);
         }
         
-        if(!ClientHelper::isCrawler()){
-            $post->visit()->withIP()->withData(['date' => $post->start_at,'user-agent' => $_SERVER['HTTP_USER_AGENT']]);
-        }
-
         $post = PostResource::make($post);
 
         $categories = Category::where(['published' => true])
