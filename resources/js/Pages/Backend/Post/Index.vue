@@ -10,16 +10,15 @@ export default {
 };
 </script>
 <script setup>
-import { Link } from "@inertiajs/vue3";
+import { Link, router } from "@inertiajs/vue3";
 import Table from "@core/Components/Table.vue";
 import ToggleButton from "@core/Components/Form/ToggleButton.vue";
-import { Inertia } from "@inertiajs/inertia";
 import Icon from "@core/Components/Heroicon.vue";
 
 defineProps(["categories", "posts"]);
 
 function draft(item) {
-    Inertia.put(route("admin.blog.posts.draft", {
+    router.put(route("admin.blog.posts.draft", {
         post: item.id,
         draft: item.draft ? 1 : 0
     }), {},{
@@ -29,7 +28,7 @@ function draft(item) {
 }
 
 const updatePosition = (item, position) => {
-    Inertia.put(route("admin.blog.posts.position", {
+    router.put(route("admin.blog.posts.position", {
         post: item.id,
         position: position
     }), {},{

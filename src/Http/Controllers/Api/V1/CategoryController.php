@@ -10,8 +10,6 @@ use Wepa\Core\Http\Traits\Backend\SeoControllerTrait;
 
 class CategoryController extends Controller
 {
-    use SeoControllerTrait;
-
     public function index(Request $request): Collection
     {
         return Category::when($request->search, function ($query, $search) {

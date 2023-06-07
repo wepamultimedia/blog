@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Wepa\Blog\Http\Resources\V1\PostResource;
 use Wepa\Blog\Models\Post;
+use Wepa\Core\Events\SeoModelDestroyedEvent;
 use Wepa\Core\Http\Traits\Backend\SeoControllerTrait;
 
 class PostController extends Controller
@@ -71,6 +72,7 @@ class PostController extends Controller
     public function destroy(Post $post): void
     {
         $post->delete();
+        SeoModelDestroyedEvent::dispatch($post);
     }
 
     public function draft(Post $post, $draft)

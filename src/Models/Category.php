@@ -2,15 +2,17 @@
 
 namespace Wepa\Blog\Models;
 
+
 use Astrotomic\Translatable\Translatable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Wepa\Blog\Database\Factories\CategoryFactory;
 use Wepa\Blog\Http\Controllers\Frontend\PostController;
 use Wepa\Core\Http\Traits\Backend\PositionModelTrait;
+use Wepa\Core\Http\Traits\SeoModelTrait;
 use Wepa\Core\Models\Seo;
+
 
 /**
  * Wepa\Blog\Models\Category
@@ -54,12 +56,29 @@ use Wepa\Core\Models\Seo;
  */
 class Category extends Model
 {
+    use SeoModelTrait;
     use HasFactory;
     use PositionModelTrait;
     use Translatable;
-
+    
+    
+    public $timestamps = false;
+    public array $translatedAttributes = ['name', 'description'];
+    public $translationForeignKey = 'category_id';
     protected array $attrsArray = [];
-
+    protected $fillable = ['parent_id', 'seo_id', 'position', 'published', 'created_at', 'updated_at'];
+    protected $table = 'blog_categories';
+    
+    /**
+     * @return $this
+     */
+    public function addTranslationToArray(): static
+    {
+        $this->translationsToArray = true;
+        
+        return $this;
+    }
+    
     /**
      * @return $this
      */
@@ -70,53 +89,38 @@ class Category extends Model
         } else {
             $this->attrsArray[] = $attrs;
         }
-
+        
         return $this;
     }
-
-    /**
-     * @return $this
-     */
-    public function addTranslationToArray(): static
+    
+    public function seoDefaultParams(): array
     {
-        $this->translationsToArray = true;
-
-        return $this;
+        return [
+            'package' => 'blog',
+            'controller' => PostController::class,
+            'action' => 'index',
+            'change_freq' => Seo::CHANGE_FREQUENCY_WEEKLY,
+            'priority' => 0.7,
+            'page_type' => 'website',
+        ];
     }
-
-    public $timestamps = false;
-
-    public array $translatedAttributes = [
-        'name',
-        'description',
-    ];
-
-    public $translationForeignKey = 'category_id';
-
-    protected $fillable = [
-        'parent_id',
-        'seo_id',
-        'position',
-        'published',
-    ];
-
-    protected $table = 'blog_categories';
-
-    public function seo(): HasOne
+    
+    public function seoRequestParams(): array
     {
-        return $this->hasOne(Seo::class, 'id', 'seo_id')
-            ->withDefault([
-                'controller' => PostController::class,
-                'action' => 'index',
-            ]);
+        return $this->id ? ['categoryId' => $this->id] : [];
     }
-
+    
+    public function seoRouteParams(): array
+    {
+        return [];
+    }
+    
     public function toArray(): array
     {
         $collection = collect(parent::toArray())
             ->merge(['countChildren' => $this->countChildren])
             ->except(['translations']);
-
+        
         foreach ($this->attrsArray as $attr) {
             if ($attr === 'translations') {
                 $collection = $collection->merge([$attr => $this->getTranslationsArray()]);
@@ -124,17 +128,17 @@ class Category extends Model
                 $collection = $collection->merge([$attr => $this->{$attr}]);
             }
         }
-
+        
         return $collection->toArray();
     }
-
+    
     protected function countChildren(): Attribute
     {
         return Attribute::make(
-            get: fn () => $this->where(['parent_id' => $this->id])->count()
+            get: fn() => $this->where(['parent_id' => $this->id])->count()
         );
     }
-
+    
     protected static function newFactory(): CategoryFactory
     {
         return CategoryFactory::new();

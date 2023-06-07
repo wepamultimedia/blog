@@ -6,18 +6,35 @@ export default {
 };
 </script>
 <script setup>
-import { Link } from "@inertiajs/vue3";
 import SocialShare from "@core/Components/SocialShare.vue";
 import CategoriesList from "@/Vendor/Blog/Components/Frontend/Posts/CategoriesList.vue";
 import CategoriesFlap from "@/Vendor/Blog/Components/Frontend/Posts/CategoriesFlap.vue";
 import DatesList from "@/Vendor/Blog/Components/Frontend/Posts/DatesList.vue";
 import DatesFlap from "@/Vendor/Blog/Components/Frontend/Posts/DatesFlap.vue";
 import { ref } from "vue";
+import oembed from "@core/Mixins/oembed";
 
 const props = defineProps(["post", "categories", "dates"]);
 
 const showCategoriesFlap = ref(false);
 const showDatesFlap = ref(false);
+
+let countedVisit = false;
+
+function countVisit(event) {
+    if (!countedVisit){
+        countedVisit = true;
+        axios.post(route("api.v1.blog.post.visit", {post: props.post.data.id}));
+        window.document.removeEventListener("mousemove", countVisit);
+        window.document.removeEventListener("touchmove", countVisit);
+    }
+}
+
+onMounted(() => {
+    window.document.addEventListener("mousemove", countVisit);
+    window.document.addEventListener("touchmove", countVisit);
+    new oembed().render();
+});
 </script>
 <template>
     <div class="grid grid-cols-8 gap-2">

@@ -1,7 +1,21 @@
 <?php
 
 // config for Wepa/Blog
+use Wepa\Core\Models\Seo;
+
+
 return [
+    'seo' => [
+        'post' => [
+            'change_freq' => Seo::CHANGE_FREQUENCY_WEEKLY,
+            'priority' => 0.7
+        ],
+        'category' => [
+            /* https://www.contentpowered.com/blog/xml-sitemap-priority-changefreq/ */
+            'change_freq' => Seo::CHANGE_FREQUENCY_WEEKLY,
+            'priority' => 0.7
+        ]
+    ],
     'backend_menu' => [
         [
             'label' => 'en:Blog|es:Blog',
