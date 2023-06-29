@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Wepa\Blog\Http\Helpers\ClientHelper;
 use Wepa\Blog\Http\Resources\V1\PostResource;
 use Wepa\Blog\Models\Post;
 use Wepa\Core\Events\SeoModelDestroyedEvent;
@@ -145,5 +146,16 @@ class PostController extends Controller
         }
     
         return PostResource::collection($posts);
+    }
+    
+    public function visit(Post $post): void
+    {
+        $postDate = Carbon::parse($post->start_at);
+        
+        $days = $postDate->diffInDays(Carbon::now());
+        
+        if($days <= 30 and !ClientHelper::isCrawler()){
+            $post->visit()->withIP()->withData(['date' => $post->start_at,'user-agent' => $_SERVER['HTTP_USER_AGENT']]);
+        }
     }
 }

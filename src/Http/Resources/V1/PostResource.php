@@ -21,6 +21,7 @@ class PostResource extends JsonResource
             'summary' => $this->summary,
             'cover' => $this->cover,
             'cover_alt' => $this->cover_alt,
+            'video_cover' => $this->video_cover,
             'url' => request()->root().'/'.$this->seo->slug,
             'start_at' => Carbon::createFromDate($this->start_at)->translatedFormat('d M Y'),
             'category_name' => $this->category_name,
