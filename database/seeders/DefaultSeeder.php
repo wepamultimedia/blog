@@ -11,7 +11,7 @@ class DefaultSeeder extends \Illuminate\Database\Seeder
     {
         Menu::loadPackageItems('blog');
 
-        if (! Category::whereTranslation('name', 'Main')->exists()) {
+        if (! Category::whereTranslation('name', 'General')->exists()) {
             Category::factory()->default()->create();
         }
     }
