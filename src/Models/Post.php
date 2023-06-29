@@ -9,11 +9,13 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 use Wepa\Blog\Database\Factories\PostFactory;
 use Wepa\Blog\Http\Controllers\Frontend\PostController;
 use Wepa\Core\Http\Traits\Backend\PositionModelTrait;
+use Wepa\Core\Http\Traits\SeoModelTrait;
 use Wepa\Core\Models\Seo;
 
 /**
@@ -71,6 +73,7 @@ class Post extends Model implements CanVisit
     use PositionModelTrait;
     use Translatable;
     use HasVisits;
+    use SeoModelTrait;
 
     public array $translatedAttributes = [
         'title',
@@ -96,6 +99,8 @@ class Post extends Model implements CanVisit
         'likes',
         'position',
         'draft',
+        'created_at',
+        'updated_at'
     ];
 
     protected $table = 'blog_posts';
@@ -113,7 +118,7 @@ class Post extends Model implements CanVisit
 
         return $this;
     }
-
+    
     public function category(): HasOne
     {
         return $this->hasOne(Category::class, 'id', 'category_id');
@@ -121,7 +126,8 @@ class Post extends Model implements CanVisit
 
     public function seo(): HasOne
     {
-        return $this->hasOne(Seo::class, 'id', 'seo_id')
+        return $this->hasOne(Seo::class, 'model_id', 'id')
+            ->where('model_type', '=', self::class)
             ->withDefault([
                 'controller' => PostController::class,
                 'action' => 'show',
@@ -130,7 +136,8 @@ class Post extends Model implements CanVisit
 
     public function toArray(): array
     {
-        $collection = collect(parent::toArray())->except(['translations']);
+        $collection = collect(parent::toArray())
+            ->except(['translations']);
 
         foreach ($this->attrsArray as $attr) {
             if ($attr === 'translations') {
@@ -174,5 +181,27 @@ class Post extends Model implements CanVisit
         return Attribute::make(
             get: fn () => request()->root().'/'.$this->seo->slug
         );
+    }
+    
+    public function seoDefaultParams(): array
+    {
+        return [
+            'package' => 'blog',
+            'controller' => PostController::class,
+            'action' => 'show',
+            'change_freq' => Seo::CHANGE_FREQUENCY_NEVER,
+            'priority' => 0.7,
+            'page_type' => 'article',
+        ];
+    }
+    
+    public function seoRouteParams(): array
+    {
+        return ['post' => $this->id];
+    }
+    
+    public function seoRequestParams(): array
+    {
+        return [];
     }
 }

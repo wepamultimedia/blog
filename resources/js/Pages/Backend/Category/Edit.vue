@@ -98,7 +98,6 @@ function submit() {
                 <SeoForm v-model:locale="selectedLocale"
                          v-model:seo="form.seo"
                          :description="inputValues.description"
-                         :errors="form.errors?.seo"
                          :title="inputValues.name"/>
             </div>
         </div>

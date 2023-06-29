@@ -199,12 +199,9 @@ function submit() {
             <h2 class="font mb-4">{{ __("seo") }}</h2>
             <SeoForm v-model:seo="form.seo"
                      :description="values.description"
-                     :errors="errors?.seo"
                      :image="values.cover"
                      :locale="selectedLocale"
-                     :title="values.title"
-                     article-type="blog_entry"
-                     page-type="article"/>
+                     :title="values.title"/>
         </div>
     </form>
 </template>
