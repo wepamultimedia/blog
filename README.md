@@ -17,7 +17,7 @@ npm install @ckeditor/ckeditor5-vue
 npm install wepa-ckeditor5-filemanager
 npm install @vuepic/vue-datepicker
 
-npm i @ckeditor/ckeditor5-vue wepa-ckeditor5-filemanager @vuepic/vue-datepicker
+npm i -D @ckeditor/ckeditor5-vue wepa-ckeditor5-filemanager @vuepic/vue-datepicker
 ```
 
 ### Vendor Publish

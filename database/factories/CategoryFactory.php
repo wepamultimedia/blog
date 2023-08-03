@@ -2,26 +2,24 @@
 
 namespace Wepa\Blog\Database\Factories;
 
-
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Wepa\Blog\Models\Category;
 
-
 class CategoryFactory extends Factory
 {
     protected static int $position = 1;
-    
+
     protected $model = Category::class;
-    
+
     public function configure()
     {
         self::$position = Category::nextPosition();
-        
+
         return $this->afterMaking(function (Category $category) {
             $category->position = self::$position++;
-            
+
             $category->seoAddParams([
                 'title' => $category->name,
                 'description' => $category->description,
@@ -33,17 +31,17 @@ class CategoryFactory extends Factory
             ]);
         });
     }
-    
+
     public function default()
     {
         return $this->state(function () {
             return [
                 'name' => 'General',
-                'description' => '...'
+                'description' => '...',
             ];
         });
     }
-    
+
     public function definition()
     {
         return [
@@ -54,7 +52,7 @@ class CategoryFactory extends Factory
             'published' => true,
         ];
     }
-    
+
     public function demo()
     {
         return $this->state(function () {

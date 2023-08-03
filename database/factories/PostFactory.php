@@ -4,12 +4,9 @@ namespace Wepa\Blog\Database\Factories;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
-use Wepa\Blog\Http\Controllers\Frontend\PostController;
 use Wepa\Blog\Models\Category;
 use Wepa\Blog\Models\Post;
-use Wepa\Core\Models\Seo;
 
 class PostFactory extends Factory
 {
@@ -20,7 +17,7 @@ class PostFactory extends Factory
     public function configure()
     {
         self::$position = Post::nextPosition();
-        
+
         return $this->afterMaking(function (Post $post) {
             $post->position = self::$position++;
             $post->seoAddParams([
@@ -34,7 +31,7 @@ class PostFactory extends Factory
                 'facebook_description' => $post->summary,
                 'twitter_title' => $post->title,
                 'twitter_description' => $post->summary,
-                'slug' => Str::slug($post->title)
+                'slug' => Str::slug($post->title),
             ]);
         });
     }

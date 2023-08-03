@@ -4,12 +4,10 @@ namespace Wepa\Blog\Http\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use Inertia\Response;
-use Jaybizzle\LaravelCrawlerDetect\Facades\LaravelCrawlerDetect;
 use Wepa\Blog\Http\Resources\V1\PostResource;
 use Wepa\Blog\Models\Category;
 use Wepa\Blog\Models\Post;
 use Wepa\Core\Http\Controllers\Frontend\InertiaController;
-use Wepa\Blog\Http\Helpers\ClientHelper;
 use Wepa\Core\Http\Traits\Frontend\SeoControllerTrait;
 
 class PostController extends InertiaController
@@ -56,10 +54,10 @@ class PostController extends InertiaController
 
     public function show(Post $post): Response
     {
-        if($post->draft){
+        if ($post->draft) {
             abort(404);
         }
-        
+
         $post = PostResource::make($post);
 
         $categories = Category::where(['published' => true])

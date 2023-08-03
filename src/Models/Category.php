@@ -2,9 +2,11 @@
 
 namespace Wepa\Blog\Models;
 
-
 use Astrotomic\Translatable\Translatable;
+use Barryvdh\LaravelIdeHelper\Eloquent;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Wepa\Blog\Database\Factories\CategoryFactory;
@@ -12,7 +14,6 @@ use Wepa\Blog\Http\Controllers\Frontend\PostController;
 use Wepa\Core\Http\Traits\Backend\PositionModelTrait;
 use Wepa\Core\Http\Traits\SeoModelTrait;
 use Wepa\Core\Models\Seo;
-
 
 /**
  * Wepa\Blog\Models\Category
@@ -28,31 +29,31 @@ use Wepa\Core\Models\Seo;
  * @property Seo $seo
  * @property string|null $created_at
  * @property string|null $updated_at
- * @property-read \Wepa\Blog\Models\CategoryTranslation|null $translation
- * @property-read \Illuminate\Database\Eloquent\Collection|\Wepa\Blog\Models\CategoryTranslation[] $translations
+ * @property-read CategoryTranslation|null $translation
+ * @property-read Collection|CategoryTranslation[] $translations
  * @property-read int|null $translations_count
  *
- * @method static \Illuminate\Database\Eloquent\Builder|Category listsTranslations(string $translationField)
- * @method static \Illuminate\Database\Eloquent\Builder|Category newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Category newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Category notTranslatedIn(?string $locale = null)
- * @method static \Illuminate\Database\Eloquent\Builder|Category orWhereTranslation(string $translationField, $value, ?string $locale = null)
- * @method static \Illuminate\Database\Eloquent\Builder|Category orWhereTranslationLike(string $translationField, $value, ?string $locale = null)
- * @method static \Illuminate\Database\Eloquent\Builder|Category orderByTranslation(string $translationField, string $sortMethod = 'asc')
- * @method static \Illuminate\Database\Eloquent\Builder|Category query()
- * @method static \Illuminate\Database\Eloquent\Builder|Category translated()
- * @method static \Illuminate\Database\Eloquent\Builder|Category translatedIn(?string $locale = null)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereParentId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category wherePosition($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category wherePublish($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereTranslation(string $translationField, $value, ?string $locale = null, string $method = 'whereHas', string $operator = '=')
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereTranslationLike(string $translationField, $value, ?string $locale = null)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category withTranslation()
+ * @method static Builder|Category listsTranslations(string $translationField)
+ * @method static Builder|Category newModelQuery()
+ * @method static Builder|Category newQuery()
+ * @method static Builder|Category notTranslatedIn(?string $locale = null)
+ * @method static Builder|Category orWhereTranslation(string $translationField, $value, ?string $locale = null)
+ * @method static Builder|Category orWhereTranslationLike(string $translationField, $value, ?string $locale = null)
+ * @method static Builder|Category orderByTranslation(string $translationField, string $sortMethod = 'asc')
+ * @method static Builder|Category query()
+ * @method static Builder|Category translated()
+ * @method static Builder|Category translatedIn(?string $locale = null)
+ * @method static Builder|Category whereCreatedAt($value)
+ * @method static Builder|Category whereId($value)
+ * @method static Builder|Category whereParentId($value)
+ * @method static Builder|Category wherePosition($value)
+ * @method static Builder|Category wherePublish($value)
+ * @method static Builder|Category whereTranslation(string $translationField, $value, ?string $locale = null, string $method = 'whereHas', string $operator = '=')
+ * @method static Builder|Category whereTranslationLike(string $translationField, $value, ?string $locale = null)
+ * @method static Builder|Category whereUpdatedAt($value)
+ * @method static Builder|Category withTranslation()
  *
- * @mixin \Eloquent
+ * @mixin Eloquent
  */
 class Category extends Model
 {
@@ -60,25 +61,29 @@ class Category extends Model
     use HasFactory;
     use PositionModelTrait;
     use Translatable;
-    
-    
+
     public $timestamps = false;
+
     public array $translatedAttributes = ['name', 'description'];
+
     public $translationForeignKey = 'category_id';
+
     protected array $attrsArray = [];
+
     protected $fillable = ['parent_id', 'seo_id', 'position', 'published', 'created_at', 'updated_at'];
+
     protected $table = 'blog_categories';
-    
+
     /**
      * @return $this
      */
     public function addTranslationToArray(): static
     {
         $this->translationsToArray = true;
-        
+
         return $this;
     }
-    
+
     /**
      * @return $this
      */
@@ -89,10 +94,10 @@ class Category extends Model
         } else {
             $this->attrsArray[] = $attrs;
         }
-        
+
         return $this;
     }
-    
+
     public function seoDefaultParams(): array
     {
         return [
@@ -104,23 +109,23 @@ class Category extends Model
             'page_type' => 'website',
         ];
     }
-    
+
     public function seoRequestParams(): array
     {
         return $this->id ? ['categoryId' => $this->id] : [];
     }
-    
+
     public function seoRouteParams(): array
     {
         return [];
     }
-    
+
     public function toArray(): array
     {
         $collection = collect(parent::toArray())
             ->merge(['countChildren' => $this->countChildren])
             ->except(['translations']);
-        
+
         foreach ($this->attrsArray as $attr) {
             if ($attr === 'translations') {
                 $collection = $collection->merge([$attr => $this->getTranslationsArray()]);
@@ -128,17 +133,17 @@ class Category extends Model
                 $collection = $collection->merge([$attr => $this->{$attr}]);
             }
         }
-        
+
         return $collection->toArray();
     }
-    
+
     protected function countChildren(): Attribute
     {
         return Attribute::make(
-            get: fn() => $this->where(['parent_id' => $this->id])->count()
+            get: fn () => $this->where(['parent_id' => $this->id])->count()
         );
     }
-    
+
     protected static function newFactory(): CategoryFactory
     {
         return CategoryFactory::new();

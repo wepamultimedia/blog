@@ -82,9 +82,10 @@ class PostController extends Controller
 
     public function show(Post $post): ?PostResource
     {
-        if($post->draft){
+        if ($post->draft) {
             return null;
         }
+
         return PostResource::make($post);
     }
 
@@ -118,7 +119,7 @@ class PostController extends Controller
             ->where('draft', 0)
             ->limit($number)
             ->get();
-        
+
         return PostResource::collection($posts);
     }
 
@@ -144,18 +145,18 @@ class PostController extends Controller
                 $posts = Post::popularLastMonth()->where('draft', 0)->limit($limit)->get();
                 break;
         }
-    
+
         return PostResource::collection($posts);
     }
-    
+
     public function visit(Post $post): void
     {
         $postDate = Carbon::parse($post->start_at);
-        
+
         $days = $postDate->diffInDays(Carbon::now());
-        
-        if($days <= 30 and !ClientHelper::isCrawler()){
-            $post->visit()->withIP()->withData(['date' => $post->start_at,'user-agent' => $_SERVER['HTTP_USER_AGENT']]);
+
+        if ($days <= 30 and ! ClientHelper::isCrawler()) {
+            $post->visit()->withIP()->withData(['date' => $post->start_at, 'user-agent' => $_SERVER['HTTP_USER_AGENT']]);
         }
     }
 }

@@ -5,11 +5,11 @@ namespace Wepa\Blog\Models;
 use Astrotomic\Translatable\Translatable;
 use Coderflex\Laravisit\Concerns\CanVisit;
 use Coderflex\Laravisit\Concerns\HasVisits;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Carbon;
 use Wepa\Blog\Database\Factories\PostFactory;
@@ -36,34 +36,34 @@ use Wepa\Core\Models\Seo;
  * @property Seo $seo
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property-read \Wepa\Blog\Models\PostTranslation|null $translation
- * @property-read Collection|\Wepa\Blog\Models\PostTranslation[] $translations
+ * @property-read PostTranslation|null $translation
+ * @property-read Collection|PostTranslation[] $translations
  * @property-read int|null $translations_count
  *
- * @method static \Wepa\Blog\Database\Factories\PostFactory factory(...$parameters)
- * @method static \Illuminate\Database\Eloquent\Builder|Post listsTranslations(string $translationField)
- * @method static \Illuminate\Database\Eloquent\Builder|Post newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Post newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|Post notTranslatedIn(?string $locale = null)
- * @method static \Illuminate\Database\Eloquent\Builder|Post orWhereTranslation(string $translationField, $value, ?string $locale = null)
- * @method static \Illuminate\Database\Eloquent\Builder|Post orWhereTranslationLike(string $translationField, $value, ?string $locale = null)
- * @method static \Illuminate\Database\Eloquent\Builder|Post orderByTranslation(string $translationField, string $sortMethod = 'asc')
- * @method static \Illuminate\Database\Eloquent\Builder|Post query()
- * @method static \Illuminate\Database\Eloquent\Builder|Post translated()
- * @method static \Illuminate\Database\Eloquent\Builder|Post translatedIn(?string $locale = null)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereCategoryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereLikes($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post wherePosition($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post wherePublish($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereStartAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereTranslation(string $translationField, $value, ?string $locale = null, string $method = 'whereHas', string $operator = '=')
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereTranslationLike(string $translationField, $value, ?string $locale = null)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereUserId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post whereVisits($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Post withTranslation()
+ * @method static PostFactory factory(...$parameters)
+ * @method static Builder|Post listsTranslations(string $translationField)
+ * @method static Builder|Post newModelQuery()
+ * @method static Builder|Post newQuery()
+ * @method static Builder|Post notTranslatedIn(?string $locale = null)
+ * @method static Builder|Post orWhereTranslation(string $translationField, $value, ?string $locale = null)
+ * @method static Builder|Post orWhereTranslationLike(string $translationField, $value, ?string $locale = null)
+ * @method static Builder|Post orderByTranslation(string $translationField, string $sortMethod = 'asc')
+ * @method static Builder|Post query()
+ * @method static Builder|Post translated()
+ * @method static Builder|Post translatedIn(?string $locale = null)
+ * @method static Builder|Post whereCategoryId($value)
+ * @method static Builder|Post whereCreatedAt($value)
+ * @method static Builder|Post whereId($value)
+ * @method static Builder|Post whereLikes($value)
+ * @method static Builder|Post wherePosition($value)
+ * @method static Builder|Post wherePublish($value)
+ * @method static Builder|Post whereStartAt($value)
+ * @method static Builder|Post whereTranslation(string $translationField, $value, ?string $locale = null, string $method = 'whereHas', string $operator = '=')
+ * @method static Builder|Post whereTranslationLike(string $translationField, $value, ?string $locale = null)
+ * @method static Builder|Post whereUpdatedAt($value)
+ * @method static Builder|Post whereUserId($value)
+ * @method static Builder|Post whereVisits($value)
+ * @method static Builder|Post withTranslation()
  *
  * @mixin \Eloquent
  */
@@ -100,7 +100,7 @@ class Post extends Model implements CanVisit
         'position',
         'draft',
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     protected $table = 'blog_posts';
@@ -118,7 +118,7 @@ class Post extends Model implements CanVisit
 
         return $this;
     }
-    
+
     public function category(): HasOne
     {
         return $this->hasOne(Category::class, 'id', 'category_id');
@@ -182,7 +182,7 @@ class Post extends Model implements CanVisit
             get: fn () => request()->root().'/'.$this->seo->slug
         );
     }
-    
+
     public function seoDefaultParams(): array
     {
         return [
@@ -194,12 +194,12 @@ class Post extends Model implements CanVisit
             'page_type' => 'article',
         ];
     }
-    
+
     public function seoRouteParams(): array
     {
         return ['post' => $this->id];
     }
-    
+
     public function seoRequestParams(): array
     {
         return [];
