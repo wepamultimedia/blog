@@ -197,10 +197,10 @@ function submit() {
         </div>
         <div class="my-8">
             <h2 class="font mb-4">{{ __("seo") }}</h2>
-            <SeoForm v-model:seo="form.seo"
+            <SeoForm v-model:locale="selectedLocale"
+                     v-model:seo="form.seo"
                      :description="values.description"
                      :image="values.cover"
-                     :locale="selectedLocale"
                      :title="values.title"/>
         </div>
     </form>
