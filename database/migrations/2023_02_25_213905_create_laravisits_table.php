@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('laravisits', function (Blueprint $table) {
-            $table->id();
-            $table->morphs('visitable');
-            $table->json('data');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('laravisits')) {
+            Schema::create('laravisits', function (Blueprint $table) {
+                $table->id();
+                $table->morphs('visitable');
+                $table->json('data');
+                $table->timestamps();
+            });
+        }
     }
 
     /**
