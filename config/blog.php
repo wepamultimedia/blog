@@ -4,6 +4,7 @@
 use Wepa\Core\Models\Seo;
 
 return [
+    'route_prefix' => 'noticias',
     'seo' => [
         'post' => [
             'change_freq' => Seo::CHANGE_FREQUENCY_WEEKLY,
