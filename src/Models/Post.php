@@ -99,6 +99,7 @@ class Post extends Model implements CanVisit
         'likes',
         'position',
         'draft',
+        'survey_id',
         'created_at',
         'updated_at',
     ];
