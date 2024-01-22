@@ -34,6 +34,7 @@ const body = ref("");
 const form = useForm({
     video_cover: null,
     cover: null,
+    survey_id: null,
     category_id: null,
     start_at: null,
     translations: {},
