@@ -34,6 +34,7 @@ use Wepa\Core\Models\Seo;
  * @property int $position
  * @property int $draft
  * @property Seo $seo
+ * @property int $survey_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property-read PostTranslation|null $translation

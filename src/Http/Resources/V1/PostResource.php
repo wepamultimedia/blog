@@ -31,6 +31,7 @@ class PostResource extends JsonResource
             'body' => $this->when(! $request->routeIs('*blog*.index'), function () {
                 return $this->body;
             }),
+            'survey_id' => $this->survey_id
         ];
     }
 }

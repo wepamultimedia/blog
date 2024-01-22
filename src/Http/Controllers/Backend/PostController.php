@@ -13,6 +13,7 @@ use Wepa\Blog\Models\Category;
 use Wepa\Blog\Models\Post;
 use Wepa\Core\Http\Controllers\Backend\InertiaController;
 use Wepa\Core\Http\Traits\Backend\SeoControllerTrait;
+use Wepa\Surveys\Models\Question;
 
 class PostController extends InertiaController
 {
