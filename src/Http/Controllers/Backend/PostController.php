@@ -54,9 +54,13 @@ class PostController extends InertiaController
         $categories = Category::where(['parent_id' => null])->get()->toArray();
         $post = (new Post())->load(['seo']);
 
+        if(class_exists('Wepa\Surveys\Models\Question')){
+            $loadSurveys = true;
+        }
+
         return $this->render('Vendor/Blog/Backend/Post/Create',
             ['core::seo', 'posts'],
-            compact(['post', 'categories']));
+            compact(['post', 'categories', 'loadSurveys']));
     }
 
     public function edit(Post $post): Response
@@ -64,9 +68,15 @@ class PostController extends InertiaController
         $categories = Category::get();
         $post = Post::whereId($post->id)->with('seo')->first()->attrsToArray('translations');
 
+        $loadSurveys = false;
+
+        if(class_exists('Wepa\Surveys\Models\Question')){
+            $loadSurveys = true;
+        }
+
         return $this->render('Vendor/Blog/Backend/Post/Edit',
             ['core::seo', 'posts'],
-            compact(['post', 'categories']));
+            compact(['post', 'categories', 'loadSurveys']));
     }
 
     public function index(Request $request): Response

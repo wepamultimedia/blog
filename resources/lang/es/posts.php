@@ -28,5 +28,9 @@ return [
     'clear_filters' => 'Limpiar filtros',
     'video_cover' => 'Video de portada',
     'video_cover_legend' => 'Solo videos de Youtube o Vimeo',
-
+    'survey' => 'Encuesta',
+    'select_survey' => 'seleccionar encuesta',
+    'surveys' => 'Encuestas',
+    'remove_survey' => 'Quitar encuesta',
+    'change_survey' => 'cambiar encuesta'
 ];
