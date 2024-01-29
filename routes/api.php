@@ -11,7 +11,7 @@ Route::prefix('api/v1/blog')->middleware(['api'])->group(function () {
     Route::get('posts/dates', [PostController::class, 'dates'])->name('api.v1.blog.posts.dates');
     Route::get('posts/popular/{timeframe?}/{limit?}', [PostController::class, 'popular'])
         ->name('api.v1.blog.posts.popular');
-    Route::get('posts/latest/{number}', [PostController::class, 'latest'])->name('api.v1.blog.posts.latest');
+    Route::get('posts/latest/{number}/{except_id?}', [PostController::class, 'latest'])->name('api.v1.blog.posts.latest');
 
     Route::prefix('categories')->group(function () {
         Route::get('index', [CategoryController::class, 'index'])->name('api.v1.blog.categories.index');

@@ -112,11 +112,15 @@ class PostController extends Controller
         return PostResource::collection($posts);
     }
 
-    public function latest(int $number = 6): mixed
+    public function latest(int $number = 6, int $except_id = null): mixed
     {
         $posts = Post::with('category')
             ->orderBy('position', 'desc')
             ->where('draft', 0)
+            ->when($except_id, function ($query, $except_id){
+                $query->where('id', '!=', $except_id);
+            })
+
             ->limit($number)
             ->get();
 

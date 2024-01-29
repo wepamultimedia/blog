@@ -1,27 +1,35 @@
 <script setup>
-import { onMounted, ref } from "vue";
 import axios from "axios";
+import {onMounted, ref} from "vue";
 
 const props = defineProps({
     number: {
         type: Number,
+        default: 10,
         required: true
+    },
+    exceptId: {
+        type: Number
     }
 });
 
-const posts = ref();
-const loading = ref(false);
+const posts = ref([]);
 
-function getPosts() {
-    axios.get(route("api.v1.blog.posts.latest", {number: props.number})).then(response => {
-        posts.value = response.data;
+function getLatestPosts() {
+    let data = {number: props.number};
+    if (props.exceptId) {
+        data.except_id = props.exceptId;
+    }
+    axios.get(route("api.v1.blog.posts.latest", data)).then(response => {
+        posts.value = response.data.data;
     });
 }
 
-onMounted(() => getPosts());
+onMounted(() => {
+    getLatestPosts();
+});
 </script>
 <template>
-    <slot v-if="posts"
-          :posts="posts"></slot>
+    <slot :latestPosts="posts"></slot>
 </template>
 <style scoped></style>
