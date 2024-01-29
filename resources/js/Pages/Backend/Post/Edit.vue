@@ -55,6 +55,7 @@ function submit() {
     });
 }
 
+
 onBeforeMount(() => {
     store.dispatch("backend/formLocale", usePage().props.default.locale);
 });
@@ -131,7 +132,8 @@ onBeforeMount(() => {
                                     reduce
                                     required></Select>
                         </div>
-                        <div class="p-6" v-if="loadSurveys">
+                        <div v-if="loadSurveys"
+                             class="p-6">
                             <SelectSurvey v-model="form.survey_id"></SelectSurvey>
                         </div>
                     </div>
@@ -187,9 +189,9 @@ onBeforeMount(() => {
             <h2 class="font mb-4">{{ __("seo") }}</h2>
             <SeoForm v-model:seo="form.seo"
                      :description="values.description"
+                     :image="values.cover_url"
                      :image-alt="values.cover_alt"
                      :image-title="values.cover_title"
-                     :image="values.cover_url"
                      :title="values.title"/>
         </div>
     </form>

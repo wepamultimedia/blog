@@ -53,7 +53,7 @@ const updatePosition = (item, position) => {
                     text-skin-base
                     rounded-lg
                     mb-20">
-        <Table :columns="['title', {name: 'draft', show: 'md'}, 'position']"
+        <Table :columns="['title', {name: 'draft', show: 'md', class: 'text-center w-[1%]'}, {name: 'views', show: 'md', class: 'text-center w-[1%]'}, {name: 'position', class: 'w-[1%]'}]"
                :data="posts"
                delete-route="admin.blog.posts.destroy"
                divide-x

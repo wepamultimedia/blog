@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use Inertia\Response;
 use Wepa\Blog\Http\Requests\Backend\PostRequest;
+use Wepa\Blog\Http\Resources\V1\PostResource;
 use Wepa\Blog\Models\Category;
 use Wepa\Blog\Models\Post;
 use Wepa\Core\Http\Controllers\Backend\InertiaController;
@@ -93,6 +94,8 @@ class PostController extends InertiaController
                 })
             ->orderBy('position', 'desc')
             ->paginate();
+
+        $posts = PostResource::collection($posts);
 
         return $this->render('Vendor/Blog/Backend/Post/Index',
             'posts',

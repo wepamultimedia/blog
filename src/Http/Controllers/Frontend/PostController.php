@@ -58,6 +58,14 @@ class PostController extends InertiaController
             abort(404);
         }
 
+        $views = collect($post->views);
+        $clientIp = request()->server('HTTP_DO_CONNECTING_IP', request()->ip());
+
+        if (!$views->contains('ip', $clientIp)) {
+            $post->views = $views->merge([['ip' => $clientIp]])->toArray();
+            $post->save();
+        }
+
         $post = PostResource::make($post);
 
         $categories = Category::where(['published' => true])

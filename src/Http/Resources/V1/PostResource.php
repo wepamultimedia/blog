@@ -10,7 +10,7 @@ class PostResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
     public function toArray($request)
@@ -22,13 +22,19 @@ class PostResource extends JsonResource
             'cover' => $this->cover,
             'cover_alt' => $this->cover_alt,
             'video_cover' => $this->video_cover,
-            'url' => request()->root().'/'.$this->seo->slug,
+            'url' => request()->root() . '/' . $this->seo->slug,
             'start_at' => Carbon::createFromDate($this->start_at)->translatedFormat('d M Y'),
             'category_name' => $this->category_name,
             'visits' => $this->visits()->count(),
+            'views' => $this->when($request->routeIs('*blog*.index'), function () {
+                return count($this->views);
+            }),
+            'position' => $this->when($request->routeIs('*blog*.index'), function () {
+                return $this->position;
+            }),
             'likes' => $this->likes,
             'slug' => $this->seo->slug,
-            'body' => $this->when(! $request->routeIs('*blog*.index'), function () {
+            'body' => $this->when(!$request->routeIs('*blog*.index'), function () {
                 return $this->body;
             }),
             'survey_id' => $this->survey_id

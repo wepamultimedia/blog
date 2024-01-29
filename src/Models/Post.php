@@ -32,6 +32,8 @@ use Wepa\Core\Models\Seo;
  * @property int $visits
  * @property int $likes
  * @property int $position
+ * @property string $video_cover
+ * @property string $views
  * @property int $draft
  * @property Seo $seo
  * @property int $survey_id
@@ -82,6 +84,10 @@ class Post extends Model implements CanVisit
         'body',
         'cover_title',
         'cover_alt',
+    ];
+
+    protected $casts = [
+        'views' => 'array'
     ];
 
     public $translationForeignKey = 'post_id';

@@ -31,7 +31,7 @@ if (props.limit) {
             <li v-for="item in datesList"
                 :class="[liClass]">
                 <Link :class="{[activeClass]: item.active}"
-                      :href="route('blog', {start_at: item.date})"
+                      :href="route('blog.date', {start_at: item.date})"
                       as="button"
                       class="py-1"
                       preserve-scroll

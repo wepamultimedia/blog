@@ -27,4 +27,5 @@ return [
     'clear_filters' => 'Clear filters',
     'video_cover' => 'Video cover',
     'video_cover_legend' => 'Only Youtube or Vimeo videos',
+    'views' => 'Views'
 ];

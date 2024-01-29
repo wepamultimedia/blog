@@ -32,5 +32,6 @@ return [
     'select_survey' => 'seleccionar encuesta',
     'surveys' => 'Encuestas',
     'remove_survey' => 'Quitar encuesta',
-    'change_survey' => 'cambiar encuesta'
+    'change_survey' => 'cambiar encuesta',
+    'views' => 'Vista'
 ];

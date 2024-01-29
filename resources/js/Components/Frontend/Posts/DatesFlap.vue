@@ -43,7 +43,7 @@ const proxyShow = computed({
             <ul class="divide-y">
                 <li v-for="item in dates">
                     <Link :class="{[activeClass]: item.active}"
-                          :href="route('blog', {start_at: item.date})"
+                          :href="route('blog.date', {start_at: item.date})"
                           as="button"
                           class="py-1"
                           preserve-scroll
