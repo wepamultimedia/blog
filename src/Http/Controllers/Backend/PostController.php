@@ -29,7 +29,7 @@ class PostController extends InertiaController
         return redirect(route('admin.blog.posts.index'));
     }
 
-    public function draft(Post $post, $draft)
+    public function draft(Post $post, bool $draft)
     {
         $post->update(['draft' => $draft]);
     }

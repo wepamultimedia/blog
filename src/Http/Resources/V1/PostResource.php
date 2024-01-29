@@ -26,6 +26,7 @@ class PostResource extends JsonResource
             'start_at' => Carbon::createFromDate($this->start_at)->translatedFormat('d M Y'),
             'category_name' => $this->category_name,
             'visits' => $this->visits()->count(),
+            'draft' => $this->draft,
             'views' => $this->when($request->routeIs('*blog*.index'), function () {
                 return count($this->views);
             }),
