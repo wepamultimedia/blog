@@ -59,7 +59,7 @@ class PostController extends InertiaController
             abort(404);
         }
 
-        PostViewJob::dispatch($post, request()->server('HTTP_DO_CONNECTING_IP', request()->ip()));
+//        PostViewJob::dispatch($post, request()->server('HTTP_DO_CONNECTING_IP', request()->ip()));
 
         $post = PostResource::make($post);
 
