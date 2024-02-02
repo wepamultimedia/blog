@@ -5,6 +5,7 @@ namespace Wepa\Blog\Http\Controllers\Frontend;
 use Illuminate\Http\Request;
 use Inertia\Response;
 use Wepa\Blog\Http\Resources\V1\PostResource;
+use Wepa\Blog\Jobs\PostViewJob;
 use Wepa\Blog\Models\Category;
 use Wepa\Blog\Models\Post;
 use Wepa\Core\Http\Controllers\Frontend\InertiaController;
@@ -58,13 +59,7 @@ class PostController extends InertiaController
             abort(404);
         }
 
-//        $views = collect($post->views);
-//        $clientIp = request()->server('HTTP_DO_CONNECTING_IP', request()->ip());
-//
-//        if (!$views->contains('ip', $clientIp)) {
-//            $post->views = $views->merge([['ip' => $clientIp]])->toArray();
-//            $post->save();
-//        }
+        PostViewJob::dispatch($post, request()->server('HTTP_DO_CONNECTING_IP', request()->ip()));
 
         $post = PostResource::make($post);
 
