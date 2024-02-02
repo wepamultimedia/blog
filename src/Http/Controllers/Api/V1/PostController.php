@@ -18,6 +18,17 @@ class PostController extends Controller
 
     public string $packageName = 'blog';
 
+    public function incrementViewCounter(Request $request, Post $post){
+        $views = collect($post->views);
+
+        $clientIp = $request->server('HTTP_DO_CONNECTING_IP', request()->ip());
+
+        if (!$views->contains('ip', $clientIp)) {
+            $post->views = $views->merge([['ip' => $clientIp]])->toArray();
+            $post->save();
+        }
+    }
+
     public function dates(Request $request, int $limit = null): array
     {
         $queryDates = Post::select(DB::raw('DATE_FORMAT(start_at, "%Y-%m") AS mdate, count(*) AS totalMonth'))
