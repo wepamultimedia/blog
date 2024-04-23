@@ -22,7 +22,7 @@ class BlogInstallCommand extends Command
         $this->call('vendor:publish', ['--tag' => 'laravisit-migrations']);
         $this->call('db:seed', ['class' => 'Wepa\Blog\Database\Seeders\DefaultSeeder']);
 
-        $process = Process::fromShellCommandline('npm i -D @ckeditor/ckeditor5-vue wepa-ckeditor5-filemanager @vuepic/vue-datepicker');
+        $process = Process::fromShellCommandline('npm i -D @vuepic/vue-datepicker');
         $process->run();
         $this->info($process->getOutput());
 

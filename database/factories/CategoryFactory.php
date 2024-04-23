@@ -45,7 +45,7 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $name = $this->faker->unique()->name,
+            'name' => $this->faker->unique()->name,
             'description' => $this->faker->text(191),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
