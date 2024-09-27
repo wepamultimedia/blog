@@ -4,7 +4,8 @@
 use Wepa\Core\Models\Seo;
 
 return [
-    'route_prefix' => 'blog',
+    'slug_prefix' => ['es' => 'blog'],
+    'cache_tag' => 'blog',
     'seo' => [
         'post' => [
             'change_freq' => Seo::CHANGE_FREQUENCY_WEEKLY,

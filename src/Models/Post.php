@@ -85,13 +85,10 @@ class Post extends Model implements CanVisit
         'cover_title',
         'cover_alt',
     ];
-
+    public $translationForeignKey = 'post_id';
     protected $casts = [
         'views' => 'array'
     ];
-
-    public $translationForeignKey = 'post_id';
-
     protected $appends = ['total_visits', 'category_name', 'url'];
 
     protected array $attrsArray = [];
@@ -112,6 +109,11 @@ class Post extends Model implements CanVisit
     ];
 
     protected $table = 'blog_posts';
+
+    protected static function newFactory(): PostFactory
+    {
+        return PostFactory::new();
+    }
 
     /**
      * @return $this
@@ -158,39 +160,6 @@ class Post extends Model implements CanVisit
         return $collection->toArray();
     }
 
-    protected function categoryName(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->category->name ?? null
-        );
-    }
-
-    protected static function newFactory(): PostFactory
-    {
-        return PostFactory::new();
-    }
-
-    protected function slug(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->seo->slug
-        );
-    }
-
-    protected function totalVisits(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => $this->visits()->count()
-        );
-    }
-
-    protected function url(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => request()->root().'/'.$this->seo->slug
-        );
-    }
-
     public function seoDefaultParams(): array
     {
         return [
@@ -211,5 +180,33 @@ class Post extends Model implements CanVisit
     public function seoRequestParams(): array
     {
         return [];
+    }
+
+    protected function categoryName(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->category->name ?? null
+        );
+    }
+
+    protected function slug(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->seo->slug
+        );
+    }
+
+    protected function totalVisits(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => $this->visits()->count()
+        );
+    }
+
+    protected function url(): Attribute
+    {
+        return Attribute::make(
+            get: fn() => request()->root() . '/' . $this->seo->slug
+        );
     }
 }

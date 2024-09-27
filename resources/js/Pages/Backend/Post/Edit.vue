@@ -10,7 +10,7 @@ export default {
 };
 </script>
 <script setup>
-import SelectSurvey from "@js/Vendor/Blog/Components/Backend/Posts/SelectSurvey.vue";
+import SelectSurvey from "@js/Vendor/Blog/Backend/Posts/SelectSurvey.vue";
 import {reactive, toRefs, ref, onBeforeMount} from "vue";
 import Select from "@core/Components/Select.vue";
 import Ckeditor from "@core/Components/Form/Ckeditor.vue";
@@ -26,13 +26,7 @@ import SaveFormButton from "@core/Components/Form/SaveFormButton.vue";
 import {__} from "@core/Mixins/translations";
 import {useStore} from "vuex";
 
-const props = defineProps({
-    post: Object,
-    categories: Array,
-    hasSurveys: Boolean,
-    errors: Object,
-    loadSurveys: Boolean
-});
+const props = defineProps(["post", "categories", "slugPrefix", "hasSurveys", "errors", "loadSurveys"]);
 const {categories, post} = toRefs(props);
 
 const store = useStore();
@@ -192,6 +186,7 @@ onBeforeMount(() => {
                      :image="values.cover_url"
                      :image-alt="values.cover_alt"
                      :image-title="values.cover_title"
+                     :slug-prefix="slugPrefix"
                      :title="values.title"/>
         </div>
     </form>

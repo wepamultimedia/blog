@@ -10,7 +10,7 @@ export default {
 };
 </script>
 <script setup>
-import SelectSurvey from "@js/Vendor/Blog/Components/Backend/Posts/SelectSurvey.vue";
+import SelectSurvey from "@js/Vendor/Blog/Backend/Posts/SelectSurvey.vue";
 import {reactive, toRefs, ref, onBeforeMount} from "vue";
 import Select from "@core/Components/Select.vue";
 import Ckeditor from "@core/Components/Form/Ckeditor.vue";
@@ -188,6 +188,7 @@ onBeforeMount(() => {
         <div class="my-8">
             <h2 class="font mb-4">{{ __("seo") }}</h2>
             <SeoForm v-model:seo="form.seo"
+                     :slug-prefix="slugPrefix"
                      :description="values.description"
                      :image="values.cover_url"
                      :image-alt="values.cover_alt"

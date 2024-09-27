@@ -125,17 +125,19 @@ class PostController extends Controller
 
     public function latest(int $number = 6, int $except_id = null): mixed
     {
-        $posts = Post::with('category')
-            ->orderBy('position', 'desc')
-            ->where('draft', 0)
-            ->when($except_id, function ($query, $except_id){
-                $query->where('id', '!=', $except_id);
-            })
+        return cache()->tags('blog')->remember('blog_posts', config('core.cache_ttl', 3600), function () use ($number, $except_id) {
+            $posts = Post::with('category')
+                ->orderBy('position', 'desc')
+                ->where('draft', 0)
+                ->when($except_id, function ($query, $except_id){
+                    $query->where('id', '!=', $except_id);
+                })
 
-            ->limit($number)
-            ->get();
+                ->limit($number)
+                ->get();
 
-        return PostResource::collection($posts);
+            return ['data' => PostResource::collection($posts)->resolve()];
+        });
     }
 
     public function popular(string $timeFrame = 'thisWeek', int $limit = 5): mixed
