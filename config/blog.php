@@ -4,7 +4,10 @@
 use Wepa\Core\Models\Seo;
 
 return [
-    'slug_prefix' => ['es' => 'blog'],
+    'routes' => [
+        'category_slug_prefix' => ['es' => '', 'en' => ''],
+        'post_slug_prefix' => [],
+    ],
     'cache_tag' => 'blog',
     'seo' => [
         'post' => [

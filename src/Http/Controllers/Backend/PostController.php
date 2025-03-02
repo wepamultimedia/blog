@@ -14,7 +14,6 @@ use Wepa\Blog\Models\Category;
 use Wepa\Blog\Models\Post;
 use Wepa\Core\Http\Controllers\Backend\InertiaController;
 use Wepa\Core\Http\Traits\Backend\SeoControllerTrait;
-use Wepa\Surveys\Models\Question;
 
 class PostController extends InertiaController
 {
@@ -52,12 +51,12 @@ class PostController extends InertiaController
 
     public function create(): Response
     {
-        $slugPrefix = config('blog.slug_prefix', 'blog');
+        $slugPrefix = config('blog.routes.post_slug_prefix', 'blog');
         $categories = Category::where(['parent_id' => null])->get()->toArray();
         $post = (new Post())->load(['seo']);
 
         $loadSurveys = false;
-        if(class_exists('Wepa\Surveys\Models\Question')){
+        if (class_exists('Wepa\Surveys\Models\Question')) {
             $loadSurveys = true;
         }
 
@@ -68,13 +67,13 @@ class PostController extends InertiaController
 
     public function edit(Post $post): Response
     {
-        $slugPrefix = config('blog.slug_prefix', 'blog');
+        $slugPrefix = config('blog.routes.post_slug_prefix', 'blog');
         $categories = Category::get();
         $post = Post::whereId($post->id)->with('seo')->first()->attrsToArray('translations');
 
         $loadSurveys = false;
 
-        if(class_exists('Wepa\Surveys\Models\Question')){
+        if (class_exists('Wepa\Surveys\Models\Question')) {
             $loadSurveys = true;
         }
 
@@ -89,7 +88,7 @@ class PostController extends InertiaController
 
         $posts = Post::when($request->search,
             function ($query, $search) {
-                $query->whereTranslationLike('title', '%'.$search.'%');
+                $query->whereTranslationLike('title', '%' . $search . '%');
             })
             ->when($request->categoryId,
                 function ($query, $categoryId) {

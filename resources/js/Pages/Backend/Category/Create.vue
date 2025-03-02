@@ -19,7 +19,7 @@ import SaveFormButton from "@core/Components/Form/SaveFormButton.vue";
 import { __ } from "@core/Mixins/translations";
 import { useStore } from "vuex";
 
-const props = defineProps(["category", "errors"]);
+const props = defineProps(["category", "errors", "slugPrefix"]);
 
 const store = useStore();
 const {category} = toRefs(props);
@@ -32,7 +32,6 @@ const form = useForm({
     translations: {},
     ...category.value
 });
-
 
 function submit() {
     form.post(route("admin.blog.categories.store"), {
@@ -92,6 +91,7 @@ function submit() {
             <SeoForm v-model:locale="selectedLocale"
                      v-model:seo="form.seo"
                      :description="inputValues.description"
+                     :slug-prefix="slugPrefix"
                      :robots="['noindex', 'nofollow']"
                      :title="inputValues.name"
                      autocomplete/>

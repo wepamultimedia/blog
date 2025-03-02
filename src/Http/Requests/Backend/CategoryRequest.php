@@ -27,14 +27,20 @@ class CategoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'translations.'.config('app.locale').'.name' => 'string|required',
+            'translations.*.name' => 'string|required',
+            'translations.*.description' => 'string|required',
         ];
     }
 
     public function messages()
     {
-        return [
-            'translations.'.config('app.locale').'.name.required' => __('blog::categories.name_required_default_lang', ['locale' => config('app.locale')]),
-        ];
+        $messages = [];
+
+        foreach ($this->input('translations') as $locale => $value){
+            $messages["translations.{$locale}.name.required"] = __('blog::categories.name_required_default_lang', ['locale' => $locale]);
+            $messages["translations.{$locale}.description.required"] = __('blog::categories.description_required_default_lang', ['locale' => $locale]);
+        }
+
+        return $messages;
     }
 }

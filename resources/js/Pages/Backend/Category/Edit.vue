@@ -27,7 +27,7 @@ import { useForm } from "@inertiajs/vue3";
 import { __ } from "@core/Mixins/translations";
 import { useStore } from "vuex";
 
-const props = defineProps(["category", "errors"]);
+const props = defineProps(["category", "slugPrefix", "errors"]);
 
 const store = useStore();
 const {category} = toRefs(props);
@@ -98,6 +98,7 @@ function submit() {
                 <SeoForm v-model:locale="selectedLocale"
                          v-model:seo="form.seo"
                          :description="inputValues.description"
+                         :slug-prefix="slugPrefix"
                          :title="inputValues.name"/>
             </div>
         </div>

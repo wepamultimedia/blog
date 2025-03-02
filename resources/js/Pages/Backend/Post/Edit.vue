@@ -11,7 +11,7 @@ export default {
 </script>
 <script setup>
 import SelectSurvey from "@js/Vendor/Blog/Backend/Posts/SelectSurvey.vue";
-import {reactive, toRefs, ref, onBeforeMount} from "vue";
+import {reactive, toRefs, onBeforeMount, computed} from "vue";
 import Select from "@core/Components/Select.vue";
 import Ckeditor from "@core/Components/Form/Ckeditor.vue";
 import ToggleButton from "@core/Components/Form/ToggleButton.vue";
@@ -30,8 +30,9 @@ const props = defineProps(["post", "categories", "slugPrefix", "hasSurveys", "er
 const {categories, post} = toRefs(props);
 
 const store = useStore();
-const body = ref("");
-const form = useForm({...post.value});
+const form = useForm({
+    ...post.value
+});
 const values = reactive({
     title: "",
     description: "",
@@ -49,6 +50,9 @@ function submit() {
     });
 }
 
+const slug = computed(() => {
+    return props.categories.find(c => c.id === form.category_id)?.name || "";
+});
 
 onBeforeMount(() => {
     store.dispatch("backend/formLocale", usePage().props.default.locale);
@@ -139,7 +143,7 @@ onBeforeMount(() => {
                                 <InputImage v-model="form.cover"
                                             v-model:alt_name="values.cover_alt"
                                             v-model:title="values.cover_title"
-                                            v-model:url="values.cover_url"
+                                            v-model:file_name="values.cover_url"
                                             :errors="errors"
                                             name="cover"/>
                             </div>
@@ -187,6 +191,7 @@ onBeforeMount(() => {
                      :image-alt="values.cover_alt"
                      :image-title="values.cover_title"
                      :slug-prefix="slugPrefix"
+                     :slug="`${slug}${slug ? '/' : ''}${values.title}`"
                      :title="values.title"/>
         </div>
     </form>

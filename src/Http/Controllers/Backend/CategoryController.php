@@ -7,6 +7,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use Inertia\Response;
 use Wepa\Blog\Http\Requests\Backend\CategoryRequest;
 use Wepa\Blog\Models\Category;
 use Wepa\Core\Http\Controllers\Backend\InertiaController;
@@ -25,16 +26,20 @@ class CategoryController extends InertiaController
         return redirect(route('admin.blog.categories.index'));
     }
 
-    public function edit(Category $category): \Inertia\Response
+    public function edit(Category $category): Response
     {
         $category = Category::whereId($category->id)->with('seo')->first();
+        $category = $category->attrsToArray(['translations']);
+
+        $slugPrefix = config('blog.routes.category_slug_prefix');
 
         return $this->render('Vendor/Blog/Backend/Category/Edit',
             ['core::seo', 'categories'],
-            ['category' => $category->attrsToArray(['translations'])]);
+            compact('category', 'slugPrefix')
+        );
     }
 
-    public function index(Request $request): \Inertia\Response
+    public function index(Request $request): Response
     {
         $categories = Category::when($request->search,
             function ($query, $search) {
@@ -94,13 +99,14 @@ class CategoryController extends InertiaController
         return redirect(route('admin.blog.categories.index'));
     }
 
-    public function create(): \Inertia\Response
+    public function create(): Response
     {
         $category = (new Category())->load('seo');
+        $slugPrefix = config('blog.routes.category_slug_prefix');
 
         return $this->render('Vendor/Blog/Backend/Category/Create',
             ['core::seo', 'categories'],
-            compact(['category'])
+            compact(['category', 'slugPrefix'])
         );
     }
 }

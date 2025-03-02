@@ -11,7 +11,7 @@ export default {
 </script>
 <script setup>
 import SelectSurvey from "@js/Vendor/Blog/Backend/Posts/SelectSurvey.vue";
-import {reactive, toRefs, ref, onBeforeMount} from "vue";
+import {reactive, toRefs, onBeforeMount, computed} from "vue";
 import Select from "@core/Components/Select.vue";
 import Ckeditor from "@core/Components/Form/Ckeditor.vue";
 import ToggleButton from "@core/Components/Form/ToggleButton.vue";
@@ -30,7 +30,6 @@ const props = defineProps(["categories", "post", "slugPrefix", "errors", "loadSu
 const {post, categories, errors} = toRefs(props);
 
 const store = useStore();
-const body = ref("");
 const form = useForm({
     video_cover: null,
     cover: null,
@@ -57,8 +56,13 @@ function submit() {
     });
 }
 
+const slug = computed(() => {
+    return props.categories.find(c => c.id === form.category_id)?.name || "";
+});
+
+
 onBeforeMount(() => {
-    store.dispatch("backend/formLocale", usePage().props.default.locale);
+    store.dispatch("backend/formLocale", usePage().props.default.defaultLocale);
 });
 </script>
 <template>
@@ -133,7 +137,8 @@ onBeforeMount(() => {
                                     reduce
                                     required></Select>
                         </div>
-                        <div class="p-6" v-if="loadSurveys">
+                        <div v-if="loadSurveys"
+                             class="p-6">
                             <SelectSurvey v-model="form.survey_id"></SelectSurvey>
                         </div>
                     </div>
@@ -144,8 +149,9 @@ onBeforeMount(() => {
                             <div class="mb-4">
                                 <InputImage v-model="form.cover"
                                             v-model:alt_name="values.cover_alt"
+                                            v-model:file_name="values.cover"
+                                            v-model:image="values.file"
                                             v-model:title="values.cover_title"
-                                            v-model:url="values.cover_url"
                                             :errors="errors"
                                             name="cover"/>
                             </div>
@@ -188,11 +194,12 @@ onBeforeMount(() => {
         <div class="my-8">
             <h2 class="font mb-4">{{ __("seo") }}</h2>
             <SeoForm v-model:seo="form.seo"
-                     :slug-prefix="slugPrefix"
                      :description="values.description"
-                     :image="values.cover_url"
+                     :image="form.cover"
                      :image-alt="values.cover_alt"
                      :image-title="values.cover_title"
+                     :slug-prefix="slugPrefix"
+                     :slug="`${slug}${slug ? '/' : ''}${values.title}`"
                      :title="values.title"
                      article-type="blog_entry"
                      autocomplete/>
