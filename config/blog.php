@@ -5,7 +5,7 @@ use Wepa\Core\Models\Seo;
 
 return [
     'routes' => [
-        'category_slug_prefix' => ['es' => '', 'en' => ''],
+        'category_slug_prefix' => [],
         'post_slug_prefix' => [],
     ],
     'cache_tag' => 'blog',

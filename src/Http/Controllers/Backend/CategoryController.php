@@ -12,6 +12,7 @@ use Wepa\Blog\Http\Requests\Backend\CategoryRequest;
 use Wepa\Blog\Models\Category;
 use Wepa\Core\Http\Controllers\Backend\InertiaController;
 use Wepa\Core\Http\Traits\Backend\SeoControllerTrait;
+use function Aws\clear_compiled_json;
 
 class CategoryController extends InertiaController
 {
@@ -22,6 +23,7 @@ class CategoryController extends InertiaController
     public function destroy(Category $category): Redirector|RedirectResponse|Application
     {
         $category->delete();
+        cache()->flush();
 
         return redirect(route('admin.blog.categories.index'));
     }
@@ -57,11 +59,14 @@ class CategoryController extends InertiaController
     {
         $category->updatePosition($position,
             ['parent_id' => $category->parent_id]);
+
+        cache()->flush();
     }
 
     public function publish(Category $category, bool $published): void
     {
         $category->update(['published' => $published]);
+        cache()->flush();
     }
 
     public function update(CategoryRequest $request, Category $category): Application|RedirectResponse|Redirector
@@ -73,6 +78,7 @@ class CategoryController extends InertiaController
             ->toArray();
 
         $category->update($params);
+        cache()->flush();
 
         return redirect(route('admin.blog.categories.index'));
     }
@@ -95,6 +101,7 @@ class CategoryController extends InertiaController
             ->toArray();
 
         Category::create($data);
+        cache()->flush();
 
         return redirect(route('admin.blog.categories.index'));
     }

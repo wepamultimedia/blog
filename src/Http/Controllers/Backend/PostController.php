@@ -24,6 +24,7 @@ class PostController extends InertiaController
     public function destroy(Post $post): Redirector|RedirectResponse|Application
     {
         $post->delete();
+        cache()->flush();
 
         return redirect(route('admin.blog.posts.index'));
     }
@@ -31,6 +32,7 @@ class PostController extends InertiaController
     public function draft(Post $post, bool $draft)
     {
         $post->update(['draft' => $draft]);
+        cache()->flush();
     }
 
     public function update(PostRequest $request, Post $post): Redirector|RedirectResponse|Application
@@ -45,6 +47,7 @@ class PostController extends InertiaController
             ->toArray();
 
         $post->update($data);
+        cache()->flush();
 
         return redirect(route('admin.blog.posts.index'));
     }
@@ -59,6 +62,8 @@ class PostController extends InertiaController
         if (class_exists('Wepa\Surveys\Models\Question')) {
             $loadSurveys = true;
         }
+
+        cache()->flush();
 
         return $this->render('Vendor/Blog/Backend/Post/Create',
             ['core::seo', 'posts'],
@@ -107,6 +112,7 @@ class PostController extends InertiaController
     public function position(Post $post, int $position): Application|RedirectResponse|Redirector
     {
         $post->updatePosition($position);
+        cache()->flush();
 
         return redirect()->back();
     }
@@ -126,6 +132,7 @@ class PostController extends InertiaController
             ->toArray();
 
         Post::create($data);
+        cache()->flush();
 
         return redirect(route('admin.blog.posts.index'));
     }

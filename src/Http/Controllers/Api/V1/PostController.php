@@ -125,7 +125,7 @@ class PostController extends Controller
 
     public function latest(int $number = 6, int $except_id = null): mixed
     {
-        return cache()->tags('blog')->remember('blog_posts', config('core.cache_ttl', 3600), function () use ($number, $except_id) {
+        return cache()->remember('blog_posts', config('core.cache_ttl', 3600), function () use ($number, $except_id) {
             $posts = Post::with('category')
                 ->orderBy('position', 'desc')
                 ->where('draft', 0)
